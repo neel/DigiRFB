@@ -55,5 +55,5 @@ QDataStream& DG::operator>>(QDataStream& stream, Packet& packet){
 	return packet.unserialize(stream);
 }
 
-quint32 Packet::CommonHeader::_id = 0;
+quint64 Packet::CommonHeader::_id = 0;
 

@@ -9,10 +9,12 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include "scenematrix.h"
+#include "confirmpassworddialog.h"
+#include <QCryptographicHash>
 
 using namespace DG;
 
-ServerSocket::ServerSocket(QGraphicsScene* scene, QObject* parent):CommonSocket(parent), _scene(scene){
+ServerSocket::ServerSocket(QGraphicsScene* scene, QObject* parent):CommonSocket(parent), _scene(scene), dlg(0x0){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 	_matrix = new SceneMatrix(_scene);
 }
@@ -43,10 +45,9 @@ void ServerSocket::msgReceived(){
 		case Welcome:{
 				DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(p);
 				if(m->message().startsWith("challange")){
-					DG::MessagePacket* res = new DG::MessagePacket((int)Welcome);
-					res->setMessage("password|123456");
-					send(res);
-					state = Password;
+					dlg = new DG::ConfirmPasswordDialog;
+					connect(dlg, SIGNAL(confirmed(QString)), this, SLOT(confirmed(QString)));
+					dlg->show();
 				}
 			}break;
 		case Password:{
@@ -62,6 +63,10 @@ void ServerSocket::msgReceived(){
 					res->setMessage("res "+resolution->pack());
 					send(res);
 					state = ResolutionAccepted;
+				}else if(m->message().startsWith("denied")){
+					if(dlg != 0x0){
+						dlg->show();
+					}
 				}
 			}break;
 		case ResolutionAccepted:{
@@ -96,4 +101,13 @@ void ServerSocket::msgReceived(){
 
 void ServerSocket::prepare(const DG::Resolution* resolution){
 	_scene->setSceneRect(0, 0, resolution->x(), resolution->y());
+}
+
+void ServerSocket::confirmed(const QString& pass){
+	DG::MessagePacket* res = new DG::MessagePacket((int)Welcome);
+	QString passwordChecksum = QCryptographicHash::hash(pass.toAscii(), QCryptographicHash::Md5);
+	QString passStr = "password|"+passwordChecksum;
+	res->setMessage(passStr.toAscii());
+	send(res);
+	state = Password;
 }

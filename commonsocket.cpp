@@ -33,7 +33,8 @@ QByteArray CommonSocket::rcv(){
 }
 */
 DG::Packet* CommonSocket::rcv(){
-	QMutexLocker locker(&mutex);
+	qDebug() << "Mutex" << &rcvMutex;
+	QMutexLocker locker(&rcvMutex);
 	if(!packetQueue.isEmpty()){
 		//qDebug() << "!! packetQueue.size" << packetQueue.size();
 		DG::Packet* packet = packetQueue.dequeue();
@@ -52,7 +53,8 @@ quint64 CommonSocket::send(const QByteArray& bytes){
 }
 */
 quint64 CommonSocket::send(DG::Packet* packet){
-	QMutexLocker locker(&mutex);
+	qDebug() << "Mutex" << &sendMutex;
+	QMutexLocker locker(&sendMutex);
 	DG::Packet::CommonHeader header = DG::Packet::CommonHeader(packet->size(), packet->type());
 	sockStream << header;
 	qDebug() << "Sending Header: " << header.id << header.size;
@@ -75,7 +77,8 @@ CommonSocket::State CommonSocket::currentState(){
 }
 
 void CommonSocket::readAvailableSlot(){
-	QMutexLocker locker(&mutex);
+	qDebug() << "Mutex" << &readMutex;
+	QMutexLocker locker(&readMutex);
 	while(bytesAvailable() >= currentReadSize()){
 		qDebug() << "readerState " << (int)readerState << "bytesAvailable() " << bytesAvailable() << "currentReadSize() " << currentReadSize();
 		if(readerState == Header){

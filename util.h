@@ -10,6 +10,7 @@
 #include <QMutex>
 #include <QImage>
 #include <QMouseEvent>
+#include <QKeyEvent>
 
 class QWidget;
 
@@ -39,6 +40,7 @@ class Util{
 		static bool compare(const QImage& l, const QImage& r);
 	public:
 		static void fireEvent(QMouseEvent* ev);
+		static void fireEvent(QKeyEvent* ev);
 };
 }
 #endif // UTIL_H

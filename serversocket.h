@@ -8,11 +8,14 @@ class QGraphicsScene;
 namespace DG{
 	class Resolution;
 	class SceneMatrix;
+	class ConfirmPasswordDialog;
 }
 
 namespace DG{
 class ServerSocket : public CommonSocket{
 	Q_OBJECT
+	private:
+		DG::ConfirmPasswordDialog* dlg;
 	private:
 		QGraphicsScene* _scene;
 		SceneMatrix* _matrix;
@@ -25,6 +28,8 @@ class ServerSocket : public CommonSocket{
 		void msgReceived();
 	private:
 		void prepare(const DG::Resolution* resolution);
+	private slots:
+		void confirmed(const QString& pass);
 };
 }
 #endif // SERVERSOCKET_H

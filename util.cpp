@@ -146,6 +146,10 @@ void Util::fireEvent(QMouseEvent* ev){
 */
 }
 
+void Util::fireEvent(QKeyEvent* ev){
+
+}
+
 WId DG::Util::winId;
 QMutex DG::Util::mutex;
 QWidget* DG::Util::_desktopWidget;

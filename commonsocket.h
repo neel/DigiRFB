@@ -12,7 +12,9 @@ namespace DG{
 class CommonSocket : public QTcpSocket{
 	Q_OBJECT
 	private:
-		QMutex mutex;
+		QMutex sendMutex;
+		QMutex rcvMutex;
+		QMutex readMutex;
 	private:
 		enum ReadState{
 			Header,

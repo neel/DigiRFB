@@ -5,6 +5,7 @@
 #include "serversocket.h"
 #include <QDebug>
 #include "eventdespatcer.h"
+#include "keyboardeventpacket.h"
 
 using namespace DG;
 
@@ -38,6 +39,15 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 	qDebug() << "Canvas::mouseReleaseEvent";
 	MouseEventPacket* packet = new MouseEventPacket(QEvent::MouseButtonRelease, event);
 	_despatcher->addMouseEvent(packet);
+}
+void Canvas::keyPressEvent(QKeyEvent* keyEvent){
+	KeyboardEventPacket* packet = new KeyboardEventPacket(QEvent::KeyPress, keyEvent);
+	_despatcher->addKeyboardEvent(packet);
+}
+
+void Canvas::keyReleaseEvent(QKeyEvent* keyEvent){
+	KeyboardEventPacket* packet = new KeyboardEventPacket(QEvent::KeyRelease, keyEvent);
+	_despatcher->addKeyboardEvent(packet);
 }
 
 void Canvas::setSocket(ServerSocket* socket){

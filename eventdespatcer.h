@@ -9,6 +9,7 @@
 namespace DG{
 	class MouseEventPacket;
 	class ServerSocket;
+	class KeyboardEventPacket;
 }
 
 
@@ -26,6 +27,7 @@ class EventDespatcher : public QObject{
 		void despatch();
 	public:
 		void addMouseEvent(MouseEventPacket* packet);
+		void addKeyboardEvent(KeyboardEventPacket* packet);
 };
 }
 #endif // EVENTDESPATCER_H

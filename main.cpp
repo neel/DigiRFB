@@ -21,8 +21,10 @@
 #include <QLabel>
 #include <QLayout>
 
+
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
+	a.setQuitOnLastWindowClosed(false);
 	DG::Util::_init();
 /*
 	QWidget* widget = new QWidget;
@@ -34,10 +36,12 @@ int main(int argc, char *argv[]){
 	widget->layout()->addWidget(ack);
 	widget->show();
 */
-/*
+
+
 	DG::ClientSocket* socket = new DG::ClientSocket;
-	socket->connectToHost("192.168.0.3", 5590);
-*/
+	socket->connectToHost("127.0.0.1", 5590);
+
+
 
 /*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
@@ -55,14 +59,14 @@ int main(int argc, char *argv[]){
 	scene.addEllipse(20, 20, 600, 300);
 	view.show();
 */
-
+/*
 	DG::Canvas scene;
 	QGraphicsView view(&scene);
 	view.setMouseTracking(true);
 	DG::Server* server = new DG::Server(&scene);
 	server->listen(5590);
 	view.show();
-
+*/
 /*
 	DG::ScreenViewerWidget* widget = new DG::ScreenViewerWidget;
 	QScrollArea* scroller = new QScrollArea;
@@ -71,6 +75,6 @@ int main(int argc, char *argv[]){
 	server->listen(5590);
 	scroller->show();
 */
-
+	qDebug() << "Quiting";
 	return a.exec();
 }

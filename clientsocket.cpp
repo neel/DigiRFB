@@ -14,6 +14,11 @@
 #include <QThreadPool>
 #include "eventpacket.h"
 #include "mouseeventspacket.h"
+#include "keyboardeventpacket.h"
+#include "challangedialog.h"
+#include <QCryptographicHash>
+#include <QMessageBox>
+#include <QThread>
 
 using namespace DG;
 
@@ -40,10 +45,26 @@ void ClientSocket::msgReceived(){
 			}break;
 		case Hallo:{
 				if(m->message().startsWith("welcome")){
+
+					DG::ChallangeDialog* dlg = new DG::ChallangeDialog;
+					dlg->setModal(true);
+					connect(dlg, SIGNAL(challanged(QString)), this, SLOT(challanged(QString)));
+					int dlgres = dlg->exec();
+/*
+					QMessageBox msgBox;
+					 msgBox.setText("The document has been modified.");
+					 msgBox.setInformativeText("Do you want to save your changes?");
+					 msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+					 msgBox.setDefaultButton(QMessageBox::Save);
+
+					 int ret = msgBox.exec();
+*/
+					/*
 					DG::MessagePacket* res = new DG::MessagePacket((int)Hallo);
 					res->setMessage("challange");
 					send(res);
 					state = Challange;
+					*/
 				}
 			}break;
 		case Challange:{
@@ -52,12 +73,19 @@ void ClientSocket::msgReceived(){
 					QByteArray serverPass = parts[1];
 					qDebug() << "$ Password recieved from Server: "+serverPass;
 					//Compare Passwords
-					DG::MessagePacket* res = new DG::MessagePacket((int)Challange);
-					QByteArray currentResdolution = Util::currentResolution()->pack();
-					QByteArray supportedResolutions = Resolution::joinSupportedResolutions(Util::SupportedResolutions(), ',');
-					res->setMessage("res "+currentResdolution+"|"+supportedResolutions);
-					send(res);
-					state = Resolution;
+					if(serverPass.trimmed() == passwordChecksum){
+						DG::MessagePacket* res = new DG::MessagePacket((int)Challange);
+						QByteArray currentResdolution = Util::currentResolution()->pack();
+						QByteArray supportedResolutions = Resolution::joinSupportedResolutions(Util::SupportedResolutions(), ',');
+						res->setMessage("res "+currentResdolution+"|"+supportedResolutions);
+						send(res);
+						state = Resolution;
+					}else{
+						//ask to Retry
+						DG::MessagePacket* res = new DG::MessagePacket((int)Challange);
+						res->setMessage("denied");
+						send(res);
+					}
 				}
 			}break;
 		case Resolution:{
@@ -100,6 +128,14 @@ void ClientSocket::msgReceived(){
 						//send(storage->next((int)Working));
 						controller->request();
 					}
+				}else if(p->type() == Packet::KeyboardEventPacket){
+					KeyboardEventPacket* keyboardEvent = dynamic_cast<KeyboardEventPacket*>(p);
+					qDebug() << ":: Rcvd KeyEvent";
+					Q_ASSERT(keyboardEvent != 0x0);
+					keyboardEvent->reflect();
+					DG::MessagePacket* res = new DG::MessagePacket((int)Working);
+					res->setMessage("ACK K");
+					send(res);
 				}
 			}break;
 	}
@@ -130,4 +166,12 @@ void ClientSocket::prepare(DG::Resolution* resolution){
 		}
 	}
 	controller->allThreadsAdded();
+}
+
+void ClientSocket::challanged(const QString& pass){
+	passwordChecksum = QCryptographicHash::hash(pass.toAscii(), QCryptographicHash::Md5);
+	DG::MessagePacket* res = new DG::MessagePacket((int)Hallo);
+	res->setMessage("challange");
+	send(res);
+	state = Challange;
 }

@@ -2,6 +2,7 @@
 #define CLIENTSOCKET_H
 
 #include "commonsocket.h"
+#include <QByteArray>
 
 namespace DG{
 	class MatrixStorage;
@@ -20,6 +21,8 @@ class ClientSocket : public CommonSocket{
 		const quint8 divisionRows;
 		const quint8 rectCols;
 		const quint8 rectRows;
+	private:
+		QByteArray passwordChecksum;
 	public:
 		ClientSocket(QObject* parent=0);
 		virtual ~ClientSocket();
@@ -27,6 +30,8 @@ class ClientSocket : public CommonSocket{
 		void msgReceived();
 	private:
 		void prepare(DG::Resolution* resolution);
+	private slots:
+		void challanged(const QString& pass);
 };
 }
 #endif // CLIENTSOCKET_H

@@ -23,6 +23,8 @@ class Canvas : public QGraphicsScene{
 		virtual void	mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 		virtual void	mousePressEvent(QGraphicsSceneMouseEvent* event);
 		virtual void	mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+		virtual void 	keyPressEvent(QKeyEvent * keyEvent);
+		virtual void 	keyReleaseEvent(QKeyEvent * keyEvent);
 	public:
 		void setSocket(ServerSocket* socket);
 };

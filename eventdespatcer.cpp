@@ -2,6 +2,7 @@
 #include "serversocket.h"
 #include "mouseeventpacket.h"
 #include "mouseeventspacket.h"
+#include "keyboardeventpacket.h"
 #include <QMutexLocker>
 
 using namespace DG;
@@ -24,4 +25,9 @@ void EventDespatcher::despatch(){
 void EventDespatcher::addMouseEvent(MouseEventPacket* packet){
 	QMutexLocker locker(&mutex);
 	packets << packet;
+}
+
+void EventDespatcher::addKeyboardEvent(KeyboardEventPacket* packet){
+	QMutexLocker locker(&mutex);
+	_socket->send(packet);
 }
