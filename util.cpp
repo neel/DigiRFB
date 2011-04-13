@@ -27,8 +27,25 @@ bool Util::setResolution(Resolution* res){
 	//TODO Not Implemented Yet
 }
 
-QByteArray Util::grabScreen(DG::Rect* rect){
-	//TODO Not Implemented Yet
+quint64 Util::grabScreen(DG::Rect* rect){
+	HDC hdc=GetWindowDC(NULL);
+	HWND win=WindowFromDC(hdc);
+
+	HDC cdc=CreateCompatibleDC(hdc);
+	HBITMAP temp=CreateCompatibleBitmap(hdc,rect->width,rect->height);
+	PAINTSTRUCT ps;
+
+	hdc=BeginPaint(win,&ps);
+	HBITMAP oldb=(HBITMAP)SelectObject(cdc,temp);
+	BitBlt(cdc,0,0,width,height,hdc,rect->top,rect->left,SRCCOPY);//Is it Top, left ? or left, top ??
+	SelectObject(cdc,oldb);
+	EndPaint(win,&ps);
+
+	char* buff;
+	buff = new char[size()];
+	GetBitmapBits(temp,size(),buff);
+	QByteArray returnBuff(buff, size());
+	rect->buffer = returnBuff;
 }
 
 bool Util::setScreen(DG::Rect* rect, HWND hwnd){

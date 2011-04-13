@@ -4,6 +4,7 @@
 #include <QList>
 #include <QByteArray>
 #include "windows.h"
+#include "rect.h"
 
 class Resolution;
 
@@ -16,7 +17,7 @@ class Util{
 		static Resolution* currentResolution();
 		static QList<Resolution*> SupportedResolutions();
 		static bool setResolution(Resolution* res);
-		static QByteArray grabScreen(DG::Rect* rect);
+		static quint64 grabScreen(DG::Rect* rect);
 		static bool setScreen(DG::Rect* rect, HWND hwnd);
 };
 
