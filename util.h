@@ -6,9 +6,11 @@
 #include "windows.h"
 #include "rect.h"
 
-class Resolution;
+namespace DG{
+	class Resolution;
+}
 
-namespace DG;
+namespace DG{
 /**
 	* Does the System dependent Jobs
 	*/
@@ -17,8 +19,8 @@ class Util{
 		static Resolution* currentResolution();
 		static QList<Resolution*> SupportedResolutions();
 		static bool setResolution(Resolution* res);
-		static quint64 grabScreen(DG::Rect* rect);
+		static int grabScreen(DG::Rect* rect);
 		static bool setScreen(DG::Rect* rect, HWND hwnd);
 };
-
+}
 #endif // UTIL_H

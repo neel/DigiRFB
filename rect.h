@@ -4,12 +4,14 @@
 #include <QByteArray>
 #include <QMutex>
 
-namespace DG;
+namespace DG{
 
 class Rect{
 	private:
-		QMutex sMutex;
-		QMutex uMutex;
+		static quint8 bytesPerPixel;
+	private:
+		mutable QMutex sMutex;
+		mutable QMutex uMutex;
 	public:
 		Rect(quint32 left, quint32 top, quint32 width, quint32 height);
 	public:
@@ -25,6 +27,10 @@ class Rect{
 		QByteArray serialize() const;
 	public:
 		static Rect* parse(QByteArray rawBuff);
+	public:
+		bool valid() const;
+		quint32 pixels() const;
+		quint64 size() const;
 };
-
+}
 #endif // RECT_H

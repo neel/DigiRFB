@@ -1,7 +1,10 @@
 #include "rect.h"
 #include <QDataStream>
+#include <QDebug>
 
-Rect::Rect(quint32 left, quint32 top, quint32 width, quint32 height):left(left),top(top),width(width),height(height){
+using namespace DG;
+
+Rect::Rect(quint32 left=0, quint32 top=0, quint32 width=0, quint32 height=0):left(left),top(top),width(width),height(height){
 
 }
 
@@ -12,7 +15,7 @@ QByteArray Rect::serialize() const{
 	stream.setVersion(QDataStream::Qt_4_7);
 	stream << row << col << left << top;
 	stream << height << width;
-	stream >> buffer.size();
+	stream << buffer.size();
 	stream << buffer;
 	sMutex.unlock();
 	return buff;
@@ -38,3 +41,17 @@ Rect* Rect::parse(QByteArray rawBuff){
 	rect->unserialize(rawBuff);
 	return rect;
 }
+
+quint32 Rect::pixels() const{
+	return height*width;
+}
+
+bool Rect::valid() const{
+	return pixels() != 0;
+}
+
+quint64 Rect::size() const{
+	return pixels()*bytesPerPixel;
+}
+
+quint8 Rect::bytesPerPixel = 4;

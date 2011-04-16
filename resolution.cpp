@@ -4,7 +4,7 @@
 
 using namespace DG;
 
-Resolution::Resolution(unsigned int resX, unsigned int resY):_x(resX), _y(resY){
+Resolution::Resolution(unsigned int resX=0, unsigned int resY=0):_x(resX), _y(resY){
 
 }
 
@@ -52,7 +52,7 @@ QByteArray Resolution::joinSupportedResolutions(QList<Resolution*> resList, char
 }
 
 bool Resolution::parsable(QByteArray buff){
-	static QRegExp regx("\\d+"+Resolution::sep+"\\d+");
+	static QRegExp regx(QString("\\d+%1\\d+").arg(Resolution::sep));
 	return regx.exactMatch(buff);
 }
 

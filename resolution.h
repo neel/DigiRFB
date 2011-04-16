@@ -3,7 +3,7 @@
 
 #include <QByteArray>
 
-namespace DG;
+namespace DG{
 /**
 	* Structure to hold the resolution Pair
 	* It doesn't detect or set Screeb resolution
@@ -27,5 +27,5 @@ class Resolution{
 		unsigned int x() const;
 		unsigned int y() const;
 };
-
+}
 #endif // RESOLUTION_H
