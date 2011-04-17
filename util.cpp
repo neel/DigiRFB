@@ -6,6 +6,17 @@
 
 using namespace DG;
 
+DISPLAY_DEVICE Util::GetPrimaryDevice(){
+	int index=0;
+	DISPLAY_DEVICE dd;
+	dd.cb = sizeof(DISPLAY_DEVICE);
+
+	while(EnumDisplayDevices(NULL, index++, &dd, 0)){
+			if (dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
+	}
+	return dd;
+}
+
 Resolution* Util::currentResolution(){
 	QRect screenRect = QApplication::desktop()->screenGeometry();
 	Resolution* resolution = new Resolution(screenRect.width(), screenRect.height());

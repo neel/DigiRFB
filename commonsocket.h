@@ -2,12 +2,23 @@
 #define COMMONSOCKET_H
 
 #include <QTcpSocket>
+#include <QDataStream>
+#include <QByteArray>
 
+namespace DG{
 class CommonSocket : public QTcpSocket{
 	Q_OBJECT
 	private:
-		const char SeparatorToken;
-		quint8 unreadyBytes;
+		enum ReadState{
+			Header,
+			Payload
+		};
+		ReadState readerState;
+		quint8 headerSize;
+		quint16 payloadSize;
+		QDataStream sockStream;
+	private:
+		inline quint16 currentReadSize() const{return Header ? headerSize : payloadSize;}
 	protected:
 		qint64 sentBytes;
 		qint64 rcvdBytes;
@@ -16,7 +27,7 @@ class CommonSocket : public QTcpSocket{
 		qint64 send(const QByteArray& bytes);
 	public:
 		CommonSocket(QObject* parent=0);
-		virtual ~DGRDPSocket();
+		virtual ~CommonSocket();
 	private:
 		QByteArray _conversationBuffer;
 	private slots:
@@ -45,5 +56,5 @@ class CommonSocket : public QTcpSocket{
 	signals:
 		void msgWaiting();
 };
-
+}
 #endif // COMMONSOCKET_H

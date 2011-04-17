@@ -7,10 +7,18 @@ HEADERS += \
     resolution.h \
     util.h \
     rect.h \
-    commonsocket.h
+    commonsocket.h \
+    packet.h \
+    messagepacket.h \
+    screenpacket.h
 
 SOURCES += \
     resolution.cpp \
     util.cpp \
     rect.cpp \
-    commonsocket.cpp
+    commonsocket.cpp \
+    packet.cpp \
+    messagepacket.cpp \
+    screenpacket.cpp
+
+LIBS += -lgdi32

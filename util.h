@@ -15,6 +15,8 @@ namespace DG{
 	* Does the System dependent Jobs
 	*/
 class Util{
+	private:
+		static DISPLAY_DEVICE GetPrimaryDevice();
 	public:
 		static Resolution* currentResolution();
 		static QList<Resolution*> SupportedResolutions();
