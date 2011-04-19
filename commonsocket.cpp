@@ -1,7 +1,8 @@
 #include "commonsocket.h"
 
 using namespace DG;
-#include "packet.h"
+#include "messagepacket.h"
+#include "screenpacket.h"
 
 CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 	headerSize = sizeof(DG::Packet::CommonHeader);
@@ -14,14 +15,24 @@ CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 CommonSocket::~CommonSocket(){
 
 }
-
+/*
 QByteArray CommonSocket::rcv(){
 	return _conversationBuffer;
 }
-
-qint64 CommonSocket::send(const QByteArray& bytes){
+*/
+DG::Packet* CommonSocket::rcv(){
+	return packetQueue.dequeue();
+}
+/*
+quint64 CommonSocket::send(const QByteArray& bytes){
 	sockStream << bytes.size();
 	return writeData(bytes.data(), bytes.size());
+}
+*/
+quint64 CommonSocket::send(DG::Packet* packet){
+	sockStream << DG::Packet::CommonHeader(packet->size(), packet->type());
+	sockStream << *packet;
+	return packet->size();
 }
 
 CommonSocket::State CommonSocket::currentState(){
@@ -31,13 +42,22 @@ CommonSocket::State CommonSocket::currentState(){
 void CommonSocket::readAvailableSlot(){
 	while(bytesAvailable() >= currentReadSize()){
 		if(readerState == Header){
-			sockStream >> payloadSize;
+			DG::Packet::CommonHeader* header = new DG::Packet::CommonHeader;
+			sockStream >> *header;
 			readerState = Payload;
-			_conversationBuffer.clear();
+			payloadSize = header->size;
+			lastHeader = header;
 		}else{
-			_conversationBuffer.append(read(currentReadSize()));
-			readerState = Header;
+			DG::Packet* packet;
+			if(lastHeader->packetType == Packet::MessagePacket){
+				packet =  new MessagePacket;
+			}else{
+				packet = new ScreenPacket;
+			}
+			sockStream >> *packet;
 			payloadSize = 0;
+			packetQueue.append(packet);
+			readerState = Header;
 			emit msgWaiting();
 		}
 	}

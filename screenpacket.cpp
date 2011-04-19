@@ -2,7 +2,11 @@
 
 using namespace DG;
 
-ScreenPacket::ScreenPacket(int state):Packet(state){
+ScreenPacket::ScreenPacket(){
+
+}
+
+ScreenPacket::ScreenPacket(int state):Packet(Packet::ScreenPacket, state){
 
 }
 
@@ -21,8 +25,8 @@ void ScreenPacket::setIndex(quint32 row, quint32 col){
 	_col = col;
 }
 
-void setBuffer(const QByteArray& buffer){
-	buuffer = buffer;
+void ScreenPacket::setBuffer(const QByteArray& buffer){
+	_buffer = buffer;
 }
 
 quint32 ScreenPacket::row() const{
@@ -61,4 +65,8 @@ QDataStream& ScreenPacket::serialize(QDataStream& stream) const{
 QDataStream& ScreenPacket::unserialize(QDataStream& stream){
 	stream >> _row >> _col >> _left >> _top >> _width >> _height >> _buffer;
 	return stream;
+}
+
+quint64 ScreenPacket::size() const{
+	return (sizeof(*this)-sizeof(_buffer)+_buffer.size());
 }

@@ -9,12 +9,15 @@ class MessagePacket: public Packet{
 	private:
 		QByteArray _msg;
 	public:
+		MessagePacket();
 		MessagePacket(int state);
 		void setMessage(QByteArray msg);
 		QByteArray message() const;
 	public:
 		QDataStream& serialize(QDataStream& stream) const;
 		QDataStream& unserialize(QDataStream& stream);
+	public:
+		virtual quint64 size() const;
 };
 }
 #endif // MESSAGEPACKET_H

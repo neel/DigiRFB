@@ -15,6 +15,7 @@ class ScreenPacket : public Packet{
 		quint32 _height;
 		QByteArray _buffer;
 	public:
+		ScreenPacket();
 		ScreenPacket(int state);
 		void setPosition(quint32 left, quint32 top);
 		void setSize(quint32 width, quint32 height);
@@ -31,6 +32,8 @@ class ScreenPacket : public Packet{
 	public:
 		QDataStream& serialize(QDataStream& stream) const;
 		QDataStream& unserialize(QDataStream& stream);
+	public:
+		virtual quint64 size() const;
 };
 }
 #endif // SCREENPACKET_H

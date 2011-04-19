@@ -4,6 +4,8 @@
 #include <QTcpSocket>
 #include <QDataStream>
 #include <QByteArray>
+#include <QQueue>
+#include "packet.h"
 
 namespace DG{
 class CommonSocket : public QTcpSocket{
@@ -23,13 +25,17 @@ class CommonSocket : public QTcpSocket{
 		qint64 sentBytes;
 		qint64 rcvdBytes;
 	protected:
-		QByteArray rcv();
-		qint64 send(const QByteArray& bytes);
+		//QByteArray rcv();
+		DG::Packet* rcv();
+		//quint64 send(const QByteArray& bytes);
+		quint64 send(DG::Packet* packet);
 	public:
 		CommonSocket(QObject* parent=0);
 		virtual ~CommonSocket();
 	private:
-		QByteArray _conversationBuffer;
+		//QByteArray _conversationBuffer;
+		DG::Packet::CommonHeader* lastHeader;
+		QQueue<DG::Packet*> packetQueue;
 	private slots:
 		void readAvailableSlot();
 	protected:

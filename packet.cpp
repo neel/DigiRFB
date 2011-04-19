@@ -2,40 +2,58 @@
 
 using namespace DG;
 
-Packet::Packet(int state):_state(state){
+Packet::Packet(){
 
 }
 
-Packet::CommonHeader::CommonHeader(quint32 sz){
+Packet::Packet(PacketType type, int state):_state(state), _type(type){
+
+}
+
+Packet::PacketType Packet::type() const{
+	return _type;
+}
+
+Packet::CommonHeader::CommonHeader(){
+
+}
+
+Packet::CommonHeader::CommonHeader(quint32 sz, PacketType type){
 	id = _id++;
 	time = QTime::currentTime();
 	size = sz;
+	packetType = type;
 }
 
-QDataStream& operator<<(QDataStream& stream, const DG::Packet::CommonHeader& header){
+QDataStream& DG::operator<<(QDataStream& stream, const Packet::CommonHeader& header){
 	stream << header.id;
 	stream << header.size;
 	stream << header.time;
-	stream << header.checksum;
+	stream << header.packetType;
 	return stream;
 }
 
-QDataStream& operator>>(QDataStream& stream, const DG::Packet::CommonHeader& header){
+QDataStream& DG::operator>>(QDataStream& stream, Packet::CommonHeader& header){
+	int packetType;
 	stream >> header.id;
 	stream >> header.size;
 	stream >> header.time;
-	stream >> header.checksum;
+	stream >> packetType;
+	header.packetType = (DG::Packet::PacketType)packetType;
 	return stream;
 }
 
-QDataStream& operator<<(QDataStream& stream, const DG::Packet& packet){
-	stream << packet._state;
+QDataStream& DG::operator<<(QDataStream& stream, const Packet& packet){
+	stream << packet._state << packet._type;
 	return packet.serialize(stream);
 }
 
-QDataStream& operator>>(QDataStream& stream, const DG::Packet& packet){
-	stream >> packet._state;
+QDataStream& DG::operator>>(QDataStream& stream, Packet& packet){
+	int _type;
+	stream >> packet._state >> _type;
+	packet._type = (DG::Packet::PacketType)_type;
 	return packet.unserialize(stream);
 }
 
 quint32 Packet::CommonHeader::_id = 0;
+
