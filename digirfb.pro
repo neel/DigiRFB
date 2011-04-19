@@ -10,7 +10,8 @@ HEADERS += \
     commonsocket.h \
     packet.h \
     messagepacket.h \
-    screenpacket.h
+    screenpacket.h \
+    clientsocket.h
 
 SOURCES += \
     resolution.cpp \
@@ -19,6 +20,8 @@ SOURCES += \
     commonsocket.cpp \
     packet.cpp \
     messagepacket.cpp \
-    screenpacket.cpp
+    screenpacket.cpp \
+    clientsocket.cpp \
+    main.cpp
 
 LIBS += -lgdi32

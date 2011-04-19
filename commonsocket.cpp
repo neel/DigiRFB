@@ -10,6 +10,12 @@ CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 	readerState = Header;
 	sockStream.setDevice(this);
 	sockStream.setVersion(QDataStream::Qt_4_7);
+	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChangedSlot(QAbstractSocket::SocketState)));
+	connect(this, SIGNAL(readyRead()), this, SLOT(readAvailableSlot()));
+}
+
+void CommonSocket::stateChangedSlot(QAbstractSocket::SocketState socketState){
+	qDebug() << ">> Socket State Changed: " << socketState;
 }
 
 CommonSocket::~CommonSocket(){
@@ -21,7 +27,9 @@ QByteArray CommonSocket::rcv(){
 }
 */
 DG::Packet* CommonSocket::rcv(){
-	return packetQueue.dequeue();
+	if(!packetQueue.isEmpty())
+		return packetQueue.dequeue();
+	return 0x0;
 }
 /*
 quint64 CommonSocket::send(const QByteArray& bytes){

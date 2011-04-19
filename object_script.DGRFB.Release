@@ -1,0 +1,13 @@
+INPUT(
+./release\resolution.o
+./release\util.o
+./release\rect.o
+./release\commonsocket.o
+./release\packet.o
+./release\messagepacket.o
+./release\screenpacket.o
+./release\clientsocket.o
+./release\main.o
+./release\moc_commonsocket.o
+./release\moc_clientsocket.o
+);

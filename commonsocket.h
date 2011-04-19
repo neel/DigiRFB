@@ -37,6 +37,7 @@ class CommonSocket : public QTcpSocket{
 		DG::Packet::CommonHeader* lastHeader;
 		QQueue<DG::Packet*> packetQueue;
 	private slots:
+		void stateChangedSlot(QAbstractSocket::SocketState socketState);
 		void readAvailableSlot();
 	protected:
 		enum State{
@@ -46,14 +47,13 @@ class CommonSocket : public QTcpSocket{
 			Welcome = 4,
 			Challange = 5,
 			Password = 6,
-			Accepted = 7,
-			Resolution = 8,
-			ResolutionAccepted = 9,
-			Prepared = 10,
-			Start = 11,
-			Working = 12,
-			ACK = 13,
-			Trap = 14
+			Resolution = 7,
+			ResolutionAccepted = 8,
+			Prepared = 9,
+			Start = 10,
+			Working = 11,
+			ACK = 12,
+			Trap = 13
 		};
 	protected:
 		State state;

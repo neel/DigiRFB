@@ -1,0 +1,13 @@
+INPUT(
+./debug\resolution.o
+./debug\util.o
+./debug\rect.o
+./debug\commonsocket.o
+./debug\packet.o
+./debug\messagepacket.o
+./debug\screenpacket.o
+./debug\clientsocket.o
+./debug\main.o
+./debug\moc_commonsocket.o
+./debug\moc_clientsocket.o
+);
