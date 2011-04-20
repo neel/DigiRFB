@@ -15,6 +15,9 @@ CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 }
 
 void CommonSocket::stateChangedSlot(QAbstractSocket::SocketState socketState){
+	if(socketState == QAbstractSocket::ConnectedState){
+		state = Connected;
+	}
 	qDebug() << ">> Socket State Changed: " << socketState;
 }
 
