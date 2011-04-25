@@ -8,6 +8,15 @@ INPUT(
 ./release\screenpacket.o
 ./release\clientsocket.o
 ./release\main.o
+./release\serversocket.o
+./release\matrixstorage.o
+./release\matrixstorageitem.o
+./release\rectarea.o
+./release\updatethread.o
+./release\server.o
 ./release\moc_commonsocket.o
 ./release\moc_clientsocket.o
+./release\moc_serversocket.o
+./release\moc_updatethread.o
+./release\moc_server.o
 );

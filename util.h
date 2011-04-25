@@ -4,9 +4,11 @@
 #include <QList>
 #include <QByteArray>
 #include "windows.h"
-#include "rect.h"
+#include <QPixmap>
+#include <QMutex>
 
 namespace DG{
+	class Rect;
 	class Resolution;
 }
 
@@ -17,12 +19,13 @@ namespace DG{
 class Util{
 	private:
 		static DISPLAY_DEVICE GetPrimaryDevice();
+		static QMutex mutex;
 	public:
 		static Resolution* currentResolution();
 		static QList<Resolution*> SupportedResolutions();
 		static bool setResolution(Resolution* res);
-		static int grabScreen(DG::Rect* rect);
-		static bool setScreen(DG::Rect* rect, HWND hwnd);
+		static QPixmap grabScreen(const DG::Rect* rect);
+		/*static bool setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap);*/
 };
 }
 #endif // UTIL_H

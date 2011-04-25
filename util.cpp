@@ -1,12 +1,15 @@
+#include "rect.h"
 #include "util.h"
 #include "resolution.h"
 #include "QApplication"
 #include <QtAlgorithms>
 #include <QDesktopWidget>
+#include <QDebug>
 
 using namespace DG;
 
 DISPLAY_DEVICE Util::GetPrimaryDevice(){
+
 	int index=0;
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
@@ -15,6 +18,7 @@ DISPLAY_DEVICE Util::GetPrimaryDevice(){
 			if (dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
 	}
 	return dd;
+
 }
 
 Resolution* Util::currentResolution(){
@@ -25,11 +29,12 @@ Resolution* Util::currentResolution(){
 
 QList<Resolution*> Util::SupportedResolutions(){
 	DEVMODE dm;
-	ZeroMemory(&dm, sizeof(dm));
-	dm.dmSize = sizeof(dm);
-	quint8 index = 0;
+	/*ZeroMemory(&dm, sizeof(dm));
+	dm.dmSize = sizeof(dm);*/
+	int index = 0;
 	QList<Resolution*> supportedResolutions;
-	if(0 != EnumDisplaySettings(0x0, index++, &dm)){
+	if(0 != EnumDisplaySettings(NULL, index++, &dm)){
+		qDebug() << index-1 << dm.dmPelsWidth << dm.dmPelsHeight;
 		Resolution* resolution = new Resolution(dm.dmPelsWidth, dm.dmPelsHeight);
 		supportedResolutions << resolution;
 	}
@@ -37,6 +42,7 @@ QList<Resolution*> Util::SupportedResolutions(){
 }
 
 bool Util::setResolution(Resolution* res){
+
 	long PelsWidth = res->x();
 	long PelsHeight = res->y();
 	DISPLAY_DEVICE dd = GetPrimaryDevice();
@@ -52,9 +58,12 @@ bool Util::setResolution(Resolution* res){
 			return false;
 	}
 	return (ChangeDisplaySettings(&dm, 0)==DISP_CHANGE_SUCCESSFUL);
+
 }
 
-int Util::grabScreen(DG::Rect* rect){
+QPixmap Util::grabScreen(const DG::Rect* rect){
+
+	mutex.lock();
 	HDC hdc=GetWindowDC(NULL);
 	HWND win=WindowFromDC(hdc);
 
@@ -72,13 +81,13 @@ int Util::grabScreen(DG::Rect* rect){
 	buff = new char[rect->size()];
 	GetBitmapBits(temp,rect->size(),buff);
 
-	int result = qstrncmp(buff,rect->buffer, rect->size());
-	if(result != 0)
-		rect->buffer.setRawData(buff, rect->size());
-	return result;
-}
+	QPixmap pixmap = QPixmap::fromWinHBITMAP(temp);
+	mutex.unlock();
+	return pixmap;
 
-bool Util::setScreen(DG::Rect* rect, HWND hwnd){
+}
+/*
+bool Util::setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap){
 	HDC hdc = GetWindowDC(hwnd);
 	HBITMAP scrn = CreateCompatibleBitmap(hdc,rect->width,rect->height);
 	SetBitmapBits(scrn, rect->size(), rect->buffer.data());
@@ -103,3 +112,5 @@ bool Util::setScreen(DG::Rect* rect, HWND hwnd){
 
 	return true;
 }
+*/
+QMutex DG::Util::mutex;

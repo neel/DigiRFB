@@ -9,6 +9,8 @@ class ServerSocket : public CommonSocket{
 	public:
 		ServerSocket(QObject* parent=0);
 		virtual ~ServerSocket();
+	public:
+		void clientConnected();
 	private slots:
 		void msgReceived();
 };

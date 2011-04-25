@@ -8,6 +8,15 @@ INPUT(
 ./debug\screenpacket.o
 ./debug\clientsocket.o
 ./debug\main.o
+./debug\serversocket.o
+./debug\matrixstorage.o
+./debug\matrixstorageitem.o
+./debug\rectarea.o
+./debug\updatethread.o
+./debug\server.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
+./debug\moc_serversocket.o
+./debug\moc_updatethread.o
+./debug\moc_server.o
 );

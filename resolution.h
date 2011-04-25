@@ -12,6 +12,7 @@ namespace DG{
 class Resolution{
 	static char sep;
 	public:
+		Resolution();
 		Resolution(unsigned int resX, unsigned int resY);
 	private:
 		unsigned int _x;

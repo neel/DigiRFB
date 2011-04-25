@@ -6,6 +6,7 @@
 #include "util.h"
 #include <QList>
 #include <QDebug>
+#include <QGraphicsPixmapItem>
 
 using namespace DG;
 
@@ -15,6 +16,13 @@ ServerSocket::ServerSocket(QObject* parent):CommonSocket(parent){
 
 ServerSocket::~ServerSocket(){
 
+}
+
+void ServerSocket::clientConnected(){
+	DG::MessagePacket* m = new DG::MessagePacket(0);
+	m->setMessage("hi!");
+	send(m);
+	state = Connected;
 }
 
 void ServerSocket::msgReceived(){
@@ -58,8 +66,13 @@ void ServerSocket::msgReceived(){
 			}break;
 		case Start:{
 				state = Working;
+			}
 		case Working:{
 				DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
+				QGraphicsPixmapItem* item = s->graphicsPixmapItem();
+				DG::MessagePacket* m = new DG::MessagePacket((int)Working);
+				m->setMessage("ACK");
+				send(m);
 			}break;
 	}
 }

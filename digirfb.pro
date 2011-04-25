@@ -12,7 +12,12 @@ HEADERS += \
     messagepacket.h \
     screenpacket.h \
     clientsocket.h \
-    serversocket.h
+    serversocket.h \
+    matrixstorage.h \
+    matrixstorageitem.h \
+    rectarea.h \
+    updatethread.h \
+    server.h
 
 SOURCES += \
     resolution.cpp \
@@ -24,6 +29,11 @@ SOURCES += \
     screenpacket.cpp \
     clientsocket.cpp \
     main.cpp \
-    serversocket.cpp
+    serversocket.cpp \
+    matrixstorage.cpp \
+    matrixstorageitem.cpp \
+    rectarea.cpp \
+    updatethread.cpp \
+    server.cpp
 
 LIBS += -lgdi32

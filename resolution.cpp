@@ -1,10 +1,15 @@
 #include "resolution.h"
 #include <QList>
 #include <QRegExp>
+#include <QDebug>
 
 using namespace DG;
 
-Resolution::Resolution(unsigned int resX=0, unsigned int resY=0):_x(resX), _y(resY){
+Resolution::Resolution(){
+
+}
+
+Resolution::Resolution(unsigned int resX, unsigned int resY):_x(resX), _y(resY){
 
 }
 
@@ -48,6 +53,7 @@ QByteArray Resolution::joinSupportedResolutions(QList<Resolution*> resList, char
 			buff += ',';
 		++c;
 	}
+	qDebug() << resList.size();
 	return buff;
 }
 

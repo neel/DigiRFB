@@ -4,12 +4,17 @@
 #include "screenpacket.h"
 #include "resolution.h"
 #include "util.h"
+#include "matrixstorage.h"
+#include "matrixstorageitem.h"
+#include "rectarea.h"
+#include "updatethread.h"
 #include <QList>
 #include <QDebug>
 
 using namespace DG;
 
-ClientSocket::ClientSocket(QObject* parent):CommonSocket(parent){
+ClientSocket::ClientSocket(QObject* parent):CommonSocket(parent), storage(0x0),
+divisionCols(4), divisionRows(4), rectCols(4), rectRows(4){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 }
 
@@ -55,8 +60,9 @@ void ClientSocket::msgReceived(){
 					QList<QByteArray> parts = m->message().split('|');
 					QByteArray serverResStr = parts[1];
 					qDebug() << "$ Resolution recieved from Server: "+serverResStr;
-					DG::Resolution* resolution = new Resolution;
+					DG::Resolution* resolution = new DG::Resolution;
 					resolution->unpack(serverResStr.trimmed());
+					prepare(resolution);
 					//set Resolution
 					DG::MessagePacket* res = new DG::MessagePacket((int)Resolution);
 					res->setMessage("prepared");
@@ -66,7 +72,6 @@ void ClientSocket::msgReceived(){
 			}break;
 		case Prepared:{
 				if(m->message().startsWith("start")){
-					//Start The Threads
 					//Send Initial Screen Packet from The Queue
 				}
 				state = Working;
@@ -76,5 +81,23 @@ void ClientSocket::msgReceived(){
 					//Send Next ScreenPacket in the Queue
 				}
 			}break;
+	}
+}
+
+void ClientSocket::prepare(DG::Resolution* resolution){
+	storage = new DG::MatrixStorage(resolution, divisionCols*rectCols, divisionRows*rectRows);
+	for(int i=0;i<divisionRows;++i){
+		for(int j=0;j<divisionCols;++j){
+			QList<DG::MatrixStorageItem*> list;
+			DG::RectArea* rectArea = new DG::RectArea(storage);
+			for(int k=i*rectRows;k<(i+1)*rectRows;++k){
+				for(int l=j*rectCols;l<(j+1)*rectCols;++l){
+					list << storage->item(k, l);
+				}
+			}
+			rectArea->assignItems(list);
+			DG::UpdateThread* thread = new DG::UpdateThread(rectArea);
+			thread->start();
+		}
 	}
 }
