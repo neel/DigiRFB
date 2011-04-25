@@ -33,10 +33,20 @@ QList<Resolution*> Util::SupportedResolutions(){
 	dm.dmSize = sizeof(dm);*/
 	int index = 0;
 	QList<Resolution*> supportedResolutions;
-	if(0 != EnumDisplaySettings(NULL, index++, &dm)){
-		qDebug() << index-1 << dm.dmPelsWidth << dm.dmPelsHeight;
+	while(0 != EnumDisplaySettings(NULL, index++, &dm)){
 		Resolution* resolution = new Resolution(dm.dmPelsWidth, dm.dmPelsHeight);
-		supportedResolutions << resolution;
+		bool matched = false;
+		foreach(DG::Resolution* r, supportedResolutions){
+			if(resolution->compare(*r)){
+				delete resolution;
+				resolution = 0x0;
+				matched = true;
+			}
+		}
+		if(!matched && resolution != 0x0){
+			supportedResolutions << resolution;
+			qDebug() << index-1 << dm.dmPelsWidth << dm.dmPelsHeight;
+		}
 	}
 	return supportedResolutions;
 }

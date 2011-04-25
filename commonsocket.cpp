@@ -1,5 +1,7 @@
 #include "commonsocket.h"
 
+#include <QDebug>
+
 using namespace DG;
 #include "messagepacket.h"
 #include "screenpacket.h"
@@ -30,8 +32,14 @@ QByteArray CommonSocket::rcv(){
 }
 */
 DG::Packet* CommonSocket::rcv(){
-	if(!packetQueue.isEmpty())
-		return packetQueue.dequeue();
+	if(!packetQueue.isEmpty()){
+		DG::Packet* packet = packetQueue.dequeue();
+		if(packet->type() == Packet::MessagePacket){
+			DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
+			qDebug() << "<<" << m->message();
+		}
+		return packet;
+	}
 	return 0x0;
 }
 /*
@@ -43,6 +51,10 @@ quint64 CommonSocket::send(const QByteArray& bytes){
 quint64 CommonSocket::send(DG::Packet* packet){
 	sockStream << DG::Packet::CommonHeader(packet->size(), packet->type());
 	sockStream << *packet;
+	if(packet->type() == Packet::MessagePacket){
+		DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
+		qDebug() << ">>" << m->message();
+	}
 	return packet->size();
 }
 

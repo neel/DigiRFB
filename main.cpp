@@ -16,12 +16,12 @@ int main(int argc, char *argv[]){
 	//DG::ClientSocket* socket = new DG::ClientSocket;
 	//socket->connectToHost(QHostAddress::LocalHost, 5590);
 
-/*
+
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
 	QByteArray supportedResolutions = DG::Resolution::joinSupportedResolutions(DG::Util::SupportedResolutions(), ',');
 	qDebug() << currentResdolution;
 	qDebug() << supportedResolutions;
-*/
+
 
 /*
 	QGraphicsScene scene;

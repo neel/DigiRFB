@@ -1,14 +1,15 @@
 #include "server.h"
 #include "serversocket.h"
+#include <QGraphicsScene>
 
 using namespace DG;
 
-Server::Server(QObject *parent):QTcpServer(parent){
+Server::Server(QGraphicsScene* scene, QObject *parent):QTcpServer(parent), _scene(scene){
 
 }
 
 void Server::incomingConnection(int socketDescriptor){
-	ServerSocket* socket = new ServerSocket();
+	ServerSocket* socket = new ServerSocket(_scene);
 	if(socket->setSocketDescriptor(socketDescriptor)){
 		QTcpServer::addPendingConnection(socket);
 		//emit newConnection();

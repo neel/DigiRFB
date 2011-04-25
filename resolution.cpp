@@ -31,7 +31,7 @@ void Resolution::unpack(QByteArray buff){
 	_y = parts[1].toInt();
 }
 
-QList<Resolution*> Resolution::parseSupportedResolutions(QByteArray buff, char sep=','){
+QList<DG::Resolution*> Resolution::parseSupportedResolutions(QByteArray buff, char sep=','){
 	QList<QByteArray> resList = buff.trimmed().split(sep);
 	QList<Resolution*> list;
 	foreach(QByteArray res, resList){
@@ -53,13 +53,16 @@ QByteArray Resolution::joinSupportedResolutions(QList<Resolution*> resList, char
 			buff += ',';
 		++c;
 	}
-	qDebug() << resList.size();
 	return buff;
 }
 
 bool Resolution::parsable(QByteArray buff){
 	static QRegExp regx(QString("\\d+%1\\d+").arg(Resolution::sep));
 	return regx.exactMatch(buff);
+}
+
+bool Resolution::compare(const DG::Resolution& resolution){
+	return (_x == resolution.x() && _y == resolution.y());
 }
 
 char Resolution::sep = 'x';

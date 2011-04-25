@@ -22,11 +22,13 @@ class Resolution{
 		void unpack(QByteArray buff);
 	public:
 		static bool parsable(QByteArray buff);
-		static QList<Resolution*> parseSupportedResolutions(QByteArray buff, char sep);
+		static QList<DG::Resolution*> parseSupportedResolutions(QByteArray buff, char sep);
 		static QByteArray joinSupportedResolutions(QList<Resolution*> resList, char sep);
 	public:
 		unsigned int x() const;
 		unsigned int y() const;
+	public:
+		bool compare(const DG::Resolution& resolution);
 };
 }
 #endif // RESOLUTION_H

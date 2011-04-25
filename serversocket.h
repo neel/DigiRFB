@@ -3,16 +3,26 @@
 
 #include "commonsocket.h"
 
+class QGraphicsScene;
+
+namespace DG{
+	class Resolution;
+}
+
 namespace DG{
 class ServerSocket : public CommonSocket{
 	Q_OBJECT
+	private:
+		QGraphicsScene* _scene;
 	public:
-		ServerSocket(QObject* parent=0);
+		ServerSocket(QGraphicsScene* scene, QObject* parent=0);
 		virtual ~ServerSocket();
 	public:
 		void clientConnected();
 	private slots:
 		void msgReceived();
+	private:
+		void prepare(const DG::Resolution* resolution);
 };
 }
 #endif // SERVERSOCKET_H

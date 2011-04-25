@@ -3,11 +3,15 @@
 
 #include <QTcpServer>
 
+class QGraphicsScene;
+
 namespace DG{
 class Server : public QTcpServer{
 	Q_OBJECT
+	private:
+		QGraphicsScene* _scene;
 	public:
-    explicit Server(QObject *parent = 0);
+		explicit Server(QGraphicsScene* scene, QObject *parent = 0);
 	protected:
 		virtual void incomingConnection(int socketDescriptor);
 	private slots:

@@ -7,10 +7,11 @@
 #include <QList>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 
 using namespace DG;
 
-ServerSocket::ServerSocket(QObject* parent):CommonSocket(parent){
+ServerSocket::ServerSocket(QGraphicsScene* scene, QObject* parent):CommonSocket(parent), _scene(scene){
 
 }
 
@@ -20,7 +21,7 @@ ServerSocket::~ServerSocket(){
 
 void ServerSocket::clientConnected(){
 	DG::MessagePacket* m = new DG::MessagePacket(0);
-	m->setMessage("hi!");
+	m->setMessage("hi! HellaRexer");
 	send(m);
 	state = Connected;
 }
@@ -49,8 +50,14 @@ void ServerSocket::msgReceived(){
 		case Password:{
 				DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(p);
 				if(m->message().startsWith("res")){
+					QList<QByteArray> parts = m->message().trimmed().split('|');
+					QList<QByteArray> _currentParts = parts[0].split(' ');
+					DG::Resolution* resolution = new DG::Resolution;
+					resolution->unpack(_currentParts[1]);
+					QList<DG::Resolution*> supportedResolutions = Resolution::parseSupportedResolutions(parts[1], ',');
+					prepare(resolution);
 					DG::MessagePacket* res = new DG::MessagePacket((int)Password);
-					res->setMessage("res|1024x768");
+					res->setMessage("res "+resolution->pack());
 					send(res);
 					state = ResolutionAccepted;
 				}
@@ -70,9 +77,14 @@ void ServerSocket::msgReceived(){
 		case Working:{
 				DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
 				QGraphicsPixmapItem* item = s->graphicsPixmapItem();
+				_scene->addItem(item);
 				DG::MessagePacket* m = new DG::MessagePacket((int)Working);
 				m->setMessage("ACK");
 				send(m);
 			}break;
 	}
+}
+
+void ServerSocket::prepare(const DG::Resolution* resolution){
+	_scene->setSceneRect(0, 0, resolution->x(), resolution->y());
 }

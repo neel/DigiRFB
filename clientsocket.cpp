@@ -57,7 +57,7 @@ void ClientSocket::msgReceived(){
 			}break;
 		case Resolution:{
 				if(m->message().startsWith("res")){
-					QList<QByteArray> parts = m->message().split('|');
+					QList<QByteArray> parts = m->message().split(' ');
 					QByteArray serverResStr = parts[1];
 					qDebug() << "$ Resolution recieved from Server: "+serverResStr;
 					DG::Resolution* resolution = new DG::Resolution;
