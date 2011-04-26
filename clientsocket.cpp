@@ -73,12 +73,14 @@ void ClientSocket::msgReceived(){
 		case Prepared:{
 				if(m->message().startsWith("start")){
 					//Send Initial Screen Packet from The Queue
+					send(storage->next((int)Prepared));
 				}
 				state = Working;
 			}break;
 		case Working:{
 				if(m->message().startsWith("ACK")){
 					//Send Next ScreenPacket in the Queue
+					send(storage->next((int)Working));
 				}
 			}break;
 	}
@@ -97,6 +99,7 @@ void ClientSocket::prepare(DG::Resolution* resolution){
 			}
 			rectArea->assignItems(list);
 			DG::UpdateThread* thread = new DG::UpdateThread(rectArea);
+			qDebug() << "Rect Area" << i << j << thread;
 			thread->start();
 		}
 	}

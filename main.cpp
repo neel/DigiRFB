@@ -16,10 +16,11 @@
 
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
-/*
+	DG::Util::_init();
+
 	DG::ClientSocket* socket = new DG::ClientSocket;
-	socket->connectToHost(QHostAddress::LocalHost, 5590);
-*/
+	socket->connectToHost("192.168.1.3", 5590);
+
 /*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
 	QByteArray supportedResolutions = DG::Resolution::joinSupportedResolutions(DG::Util::SupportedResolutions(), ',');
@@ -36,12 +37,12 @@ int main(int argc, char *argv[]){
 	scene.addEllipse(20, 20, 600, 300);
 	view.show();
 */
-
+/*
 	QGraphicsScene scene;
 	QGraphicsView view(&scene);
 	DG::Server* server = new DG::Server(&scene);
 	server->listen(5590);
 	view.show();
-
+*/
 	return a.exec();
 }

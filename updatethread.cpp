@@ -1,6 +1,7 @@
 #include "updatethread.h"
 #include "rectarea.h"
 #include <QTimer>
+#include <QDebug>
 
 using namespace DG;
 UpdateThread::UpdateThread(DG::RectArea* area, QObject *parent):QThread(parent), _area(area){
@@ -16,5 +17,6 @@ void UpdateThread::run(){
 }
 
 void UpdateThread::tick(){
+	qDebug() << currentThread() << "tick";
 	_area->update();
 }

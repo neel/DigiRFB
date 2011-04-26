@@ -4,6 +4,7 @@
 #include "matrixstorageitem.h"
 #include "resolution.h"
 #include <QMutexLocker>
+#include <QDebug>
 
 using namespace DG;
 
@@ -39,6 +40,7 @@ MatrixStorageItem* MatrixStorage::item(quint16 row, quint16 col) const{
 
 void MatrixStorage::setUpdated(MatrixStorageItem* item){
 	QMutexLocker lock(&mutex);
+	qDebug() << "Updating " << item->rect->left << item->rect->top;
 	if(!item->updated){
 		item->updated = true;
 		item->sent = false;
@@ -46,6 +48,11 @@ void MatrixStorage::setUpdated(MatrixStorageItem* item){
 	}
 }
 
-const ScreenPacket* MatrixStorage::next(int state){
+ScreenPacket* MatrixStorage::next(int state){
+	QMutexLocker lock(&mutex);
+	while(queue.size() == 0){
+		continue;
+	}
+	qDebug() << "queue.size(): " << queue.size();
 	return queue.dequeue()->rect->packet(state);
 }

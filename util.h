@@ -22,10 +22,8 @@ class Util{
 	private:
 		static QDesktopWidget* desktop;
 		static QWidget* desktopWidget;
-		struct _init{
-			_init();
-		};
-		static _init init;
+	public:
+		static void _init();
 	private:
 		static DISPLAY_DEVICE GetPrimaryDevice();
 		static QMutex mutex;

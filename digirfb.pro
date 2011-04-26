@@ -17,7 +17,8 @@ HEADERS += \
     matrixstorageitem.h \
     rectarea.h \
     updatethread.h \
-    server.h
+    server.h \
+    requestmonitor.h
 
 SOURCES += \
     resolution.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
     matrixstorageitem.cpp \
     rectarea.cpp \
     updatethread.cpp \
-    server.cpp
+    server.cpp \
+    requestmonitor.cpp
 
 LIBS += -lgdi32

@@ -37,7 +37,7 @@ class MatrixStorage{
 	public:
 		void setUpdated(MatrixStorageItem* item);
 	public:
-		const ScreenPacket* next(int state);
+		ScreenPacket* next(int state);
 };
 }
 #endif // MATRIXSTORAGE_H

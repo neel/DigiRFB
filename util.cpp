@@ -127,7 +127,7 @@ bool Util::setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap){
 }
 */
 
-Util::_init::_init(){
+void Util::_init(){
 	Util::desktop = new QDesktopWidget;
 	Util::desktopWidget = Util::desktop->screen(Util::desktop->primaryScreen());
 }
@@ -135,4 +135,3 @@ Util::_init::_init(){
 QDesktopWidget* DG::Util::desktop;
 QWidget* DG::Util::desktopWidget;
 QMutex DG::Util::mutex;
-DG::Util::_init DG::Util::init;
