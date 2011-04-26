@@ -3,6 +3,7 @@
 
 #include <QDataStream>
 #include <QMutex>
+#include <QRect>
 
 namespace DG{
 	class ScreenPacket;
@@ -35,6 +36,8 @@ class Rect{
 	public:
 		friend QDataStream& operator<<(QDataStream&, const Rect& rect);
 		friend QDataStream& operator>>(QDataStream&, Rect& rect);
+	public:
+		QRect toQRect() const;
 };
 }
 #endif // RECT_H

@@ -12,7 +12,7 @@ class MessagePacket: public Packet{
 		MessagePacket();
 		MessagePacket(int state);
 		void setMessage(QByteArray msg);
-		QByteArray message() const;
+		const QByteArray& message() const;
 	public:
 		QDataStream& serialize(QDataStream& stream) const;
 		QDataStream& unserialize(QDataStream& stream);

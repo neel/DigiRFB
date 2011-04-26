@@ -11,17 +11,21 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
+#include "server.h"
+#include "clientsocket.h"
+
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
-	//DG::ClientSocket* socket = new DG::ClientSocket;
-	//socket->connectToHost(QHostAddress::LocalHost, 5590);
-
-
+/*
+	DG::ClientSocket* socket = new DG::ClientSocket;
+	socket->connectToHost(QHostAddress::LocalHost, 5590);
+*/
+/*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
 	QByteArray supportedResolutions = DG::Resolution::joinSupportedResolutions(DG::Util::SupportedResolutions(), ',');
 	qDebug() << currentResdolution;
 	qDebug() << supportedResolutions;
-
+*/
 
 /*
 	QGraphicsScene scene;
@@ -32,5 +36,12 @@ int main(int argc, char *argv[]){
 	scene.addEllipse(20, 20, 600, 300);
 	view.show();
 */
+
+	QGraphicsScene scene;
+	QGraphicsView view(&scene);
+	DG::Server* server = new DG::Server(&scene);
+	server->listen(5590);
+	view.show();
+
 	return a.exec();
 }

@@ -56,4 +56,8 @@ QDataStream& DG::operator>>(QDataStream& stream, Rect& rect){
 	return stream;
 }
 
+QRect Rect::toQRect() const{
+	return QRect(left, top, width, height);
+}
+
 quint8 Rect::bytesPerPixel = 4;

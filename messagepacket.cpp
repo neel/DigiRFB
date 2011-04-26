@@ -14,7 +14,7 @@ void MessagePacket::setMessage(QByteArray msg){
 	_msg = msg;
 }
 
-QByteArray MessagePacket::message() const{
+const QByteArray& MessagePacket::message() const{
 	return _msg;
 }
 

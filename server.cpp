@@ -5,11 +5,13 @@
 using namespace DG;
 
 Server::Server(QGraphicsScene* scene, QObject *parent):QTcpServer(parent), _scene(scene){
-
+	setMaxPendingConnections(1);
+	connect(this, SIGNAL(newConnection()), this, SLOT(addClient()));
 }
 
 void Server::incomingConnection(int socketDescriptor){
 	ServerSocket* socket = new ServerSocket(_scene);
+	qDebug() << "Server::incomingConnection";
 	if(socket->setSocketDescriptor(socketDescriptor)){
 		QTcpServer::addPendingConnection(socket);
 		//emit newConnection();

@@ -20,7 +20,7 @@ class CommonSocket : public QTcpSocket{
 		quint16 payloadSize;
 		QDataStream sockStream;
 	private:
-		inline quint16 currentReadSize() const{return Header ? headerSize : payloadSize;}
+		inline quint16 currentReadSize() const{return readerState == Header ? headerSize : payloadSize;}
 	protected:
 		qint64 sentBytes;
 		qint64 rcvdBytes;

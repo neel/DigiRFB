@@ -41,6 +41,7 @@ QList<Resolution*> Util::SupportedResolutions(){
 				delete resolution;
 				resolution = 0x0;
 				matched = true;
+				break;
 			}
 		}
 		if(!matched && resolution != 0x0){
@@ -72,7 +73,6 @@ bool Util::setResolution(Resolution* res){
 }
 
 QPixmap Util::grabScreen(const DG::Rect* rect){
-
 	mutex.lock();
 	HDC hdc=GetWindowDC(NULL);
 	HWND win=WindowFromDC(hdc);

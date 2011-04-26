@@ -12,7 +12,7 @@
 using namespace DG;
 
 ServerSocket::ServerSocket(QGraphicsScene* scene, QObject* parent):CommonSocket(parent), _scene(scene){
-
+	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 }
 
 ServerSocket::~ServerSocket(){

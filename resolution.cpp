@@ -48,9 +48,9 @@ QByteArray Resolution::joinSupportedResolutions(QList<Resolution*> resList, char
 	QByteArray buff;
 	int c = 0;
 	foreach(Resolution* res, resList){
-		buff += res->pack();
 		if(c != 0)
 			buff += ',';
+		buff += res->pack();
 		++c;
 	}
 	return buff;

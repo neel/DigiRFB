@@ -33,6 +33,7 @@ QByteArray CommonSocket::rcv(){
 */
 DG::Packet* CommonSocket::rcv(){
 	if(!packetQueue.isEmpty()){
+		qDebug() << "!! packetQueue.size" << packetQueue.size();
 		DG::Packet* packet = packetQueue.dequeue();
 		if(packet->type() == Packet::MessagePacket){
 			DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
@@ -64,12 +65,14 @@ CommonSocket::State CommonSocket::currentState(){
 
 void CommonSocket::readAvailableSlot(){
 	while(bytesAvailable() >= currentReadSize()){
+		qDebug() << "readerState " << (int)readerState << "bytesAvailable() " << bytesAvailable() << "currentReadSize() " << currentReadSize();
 		if(readerState == Header){
 			DG::Packet::CommonHeader* header = new DG::Packet::CommonHeader;
 			sockStream >> *header;
 			readerState = Payload;
 			payloadSize = header->size;
 			lastHeader = header;
+			qDebug() << "Header: " << header->id << header->size;
 		}else{
 			DG::Packet* packet;
 			if(lastHeader->packetType == Packet::MessagePacket){
@@ -81,6 +84,7 @@ void CommonSocket::readAvailableSlot(){
 			payloadSize = 0;
 			packetQueue.append(packet);
 			readerState = Header;
+			qDebug() << "recieved packet of size " << packet->size() << "packetQueue.size() "  << packetQueue.size();
 			emit msgWaiting();
 		}
 	}
