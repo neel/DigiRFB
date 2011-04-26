@@ -7,6 +7,8 @@
 #include <QPixmap>
 #include <QMutex>
 
+class QDesktopWidget;
+
 namespace DG{
 	class Rect;
 	class Resolution;
@@ -17,6 +19,13 @@ namespace DG{
 	* Does the System dependent Jobs
 	*/
 class Util{
+	private:
+		static QDesktopWidget* desktop;
+		static QWidget* desktopWidget;
+		struct _init{
+			_init();
+		};
+		static _init init;
 	private:
 		static DISPLAY_DEVICE GetPrimaryDevice();
 		static QMutex mutex;
