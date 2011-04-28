@@ -4,7 +4,7 @@
 #include "screenpacket.h"
 
 using namespace DG;
-RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage){
+RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage), requestCount(0){
 	connect(_storage, SIGNAL(enqueued()), this, SLOT(rectAdded()));
 }
 
@@ -26,5 +26,6 @@ void RequestController::_send(){
 		while(requestCount-- > 0){
 			_socket->send(_storage->next(10));
 		}
+		requestCount = 0;
 	}
 }

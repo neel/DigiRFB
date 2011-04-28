@@ -17,7 +17,7 @@ class RequestController: public QObject{
 	public:
 		RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage);
 	private:
-		quint64 requestCount;
+		qint64 requestCount;
 	public:
 		void request();
 	private slots:
