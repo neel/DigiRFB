@@ -24,16 +24,13 @@ class CommonSocket : public QTcpSocket{
 	protected:
 		qint64 sentBytes;
 		qint64 rcvdBytes;
-	protected:
-		//QByteArray rcv();
+	public:
 		DG::Packet* rcv();
-		//quint64 send(const QByteArray& bytes);
 		quint64 send(DG::Packet* packet);
 	public:
 		CommonSocket(QObject* parent=0);
 		virtual ~CommonSocket();
 	private:
-		//QByteArray _conversationBuffer;
 		DG::Packet::CommonHeader* lastHeader;
 		QQueue<DG::Packet*> packetQueue;
 	private slots:

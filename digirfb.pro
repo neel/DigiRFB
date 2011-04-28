@@ -18,7 +18,7 @@ HEADERS += \
     rectarea.h \
     updatethread.h \
     server.h \
-    requestmonitor.h
+    requestcontroller.h
 
 SOURCES += \
     resolution.cpp \
@@ -36,6 +36,6 @@ SOURCES += \
     rectarea.cpp \
     updatethread.cpp \
     server.cpp \
-    requestmonitor.cpp
+    requestcontroller.cpp
 
 LIBS += -lgdi32

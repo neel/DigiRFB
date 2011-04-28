@@ -10,6 +10,7 @@
 #include "updatethread.h"
 #include <QList>
 #include <QDebug>
+#include "requestcontroller.h"
 
 using namespace DG;
 
@@ -73,14 +74,16 @@ void ClientSocket::msgReceived(){
 		case Prepared:{
 				if(m->message().startsWith("start")){
 					//Send Initial Screen Packet from The Queue
-					send(storage->next((int)Prepared));
+					//send(storage->next((int)Prepared));
+					controller->request();
 				}
 				state = Working;
 			}break;
 		case Working:{
 				if(m->message().startsWith("ACK")){
 					//Send Next ScreenPacket in the Queue
-					send(storage->next((int)Working));
+					//send(storage->next((int)Working));
+					controller->request();
 				}
 			}break;
 	}
@@ -88,6 +91,7 @@ void ClientSocket::msgReceived(){
 
 void ClientSocket::prepare(DG::Resolution* resolution){
 	storage = new DG::MatrixStorage(resolution, divisionCols*rectCols, divisionRows*rectRows);
+	controller = new DG::RequestController(this, storage);
 	for(int i=0;i<divisionRows;++i){
 		for(int j=0;j<divisionCols;++j){
 			QList<DG::MatrixStorageItem*> list;

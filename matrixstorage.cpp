@@ -8,7 +8,7 @@
 
 using namespace DG;
 
-MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, quint16 cols):_rows(rows), _cols(cols){
+MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, quint16 cols): _rows(rows), _cols(cols){
 	items.reserve(rows*cols*sizeof(MatrixStorageItem*));
 	quint32 rectHeight = resolution->x()/cols;
 	quint32 rectWidth = resolution->y()/rows;
@@ -45,14 +45,16 @@ void MatrixStorage::setUpdated(MatrixStorageItem* item){
 		item->updated = true;
 		item->sent = false;
 		queue.enqueue(item);
+		emit enqueued();
 	}
 }
 
+int MatrixStorage::queueSize() const{
+	return queue.size();
+}
+
 ScreenPacket* MatrixStorage::next(int state){
-	QMutexLocker lock(&mutex);
-	while(queue.size() == 0){
-		continue;
-	}
+	QMutexLocker lock(&nMutex);
 	qDebug() << "queue.size(): " << queue.size();
 	return queue.dequeue()->rect->packet(state);
 }

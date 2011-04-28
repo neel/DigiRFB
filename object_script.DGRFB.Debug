@@ -14,9 +14,12 @@ INPUT(
 ./debug\rectarea.o
 ./debug\updatethread.o
 ./debug\server.o
+./debug\requestcontroller.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o
+./debug\moc_matrixstorage.o
 ./debug\moc_updatethread.o
 ./debug\moc_server.o
+./debug\moc_requestcontroller.o
 );

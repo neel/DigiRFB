@@ -17,9 +17,11 @@ namespace DG{
 /**
 	* Should be Sigleton
 	*/
-class MatrixStorage{
+class MatrixStorage: public QObject{
+	Q_OBJECT
 	private:
 		QMutex mutex;
+		QMutex nMutex;
 	private:
 		QQueue<MatrixStorageItem*> queue;
 	private:
@@ -37,7 +39,10 @@ class MatrixStorage{
 	public:
 		void setUpdated(MatrixStorageItem* item);
 	public:
+		int queueSize() const;
 		ScreenPacket* next(int state);
+	signals:
+		void enqueued();
 };
 }
 #endif // MATRIXSTORAGE_H
