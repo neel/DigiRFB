@@ -2,14 +2,19 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QGraphicsPixmapItem>
+#include <QPixmap>
+#include <QImage>
+#include <QImageWriter>
+#include <QImageReader>
+#include <QBuffer>
 
 using namespace DG;
 
-ScreenPacket::ScreenPacket(){
+ScreenPacket::ScreenPacket():_pixmapGenerated(false){
 
 }
 
-ScreenPacket::ScreenPacket(int state):Packet(Packet::ScreenPacket, state){
+ScreenPacket::ScreenPacket(int state):Packet(Packet::ScreenPacket, state), _pixmapGenerated(false){
 
 }
 
@@ -26,6 +31,15 @@ void ScreenPacket::setIndex(quint32 row, quint32 col){
 }
 
 void ScreenPacket::setPixmap(const QPixmap& pixmap){
+	QImage image = pixmap.toImage();
+	QBuffer buffer;
+	buffer.setBuffer(&_buffer);
+	buffer.open(QBuffer::WriteOnly);
+	buffer.seek(0);
+	QImageWriter writer(&buffer, "jpeg");
+	writer.setQuality(32);
+	writer.setCompression(1);
+	_pixmapGenerated = writer.write(image);
 	_pixmap = pixmap;
 }
 
@@ -41,31 +55,34 @@ const DG::Rect& ScreenPacket::rect() const{
 	return _rect;
 }
 
-const QPixmap& ScreenPacket::pixmap() const{
+QPixmap ScreenPacket::pixmap() const{
+	if(_pixmapGenerated)
+		return _pixmap;
+	QBuffer buffer;
+	buffer.setBuffer(const_cast<QByteArray*>(&_buffer));
+	buffer.open(QBuffer::ReadOnly);
+	QImageReader reader(&buffer, "jpeg");
+	_pixmap = QPixmap::fromImage(reader.read());
+	_pixmapGenerated = true;
 	return _pixmap;
 }
 
 QDataStream& ScreenPacket::serialize(QDataStream& stream) const{
-	stream << _row << _col << _rect << _pixmap;
+	stream << _row << _col << _rect << _buffer;
 	return stream;
 }
 
 QDataStream& ScreenPacket::unserialize(QDataStream& stream){
-	stream >> _row >> _col >> _rect >> _pixmap;
+	stream >> _row >> _col >> _rect >> _buffer;
 	return stream;
 }
 
 quint64 ScreenPacket::size() const{
-	QByteArray buff;
-	QDataStream stream(&buff, QIODevice::ReadWrite);
-	stream.setVersion(QDataStream::Qt_4_7);
-	stream << _pixmap;
-
-	return ((sizeof(*this)-sizeof(_pixmap))+buff.size());
+	return ((sizeof(*this)-(sizeof(_buffer)+sizeof(_pixmapGenerated)+sizeof(_pixmap)))+_buffer.size());
 }
 
 QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{
-	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(_pixmap);
+	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(pixmap());
 	item->setOffset(_rect.left, _rect.top);
 	return item;
 }

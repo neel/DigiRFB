@@ -14,7 +14,10 @@ class ScreenPacket : public Packet{
 		quint32 _row;
 		quint32 _col;
 		Rect _rect;
-		QPixmap _pixmap;
+		QByteArray _buffer;
+	private:
+		mutable bool _pixmapGenerated;
+		mutable QPixmap _pixmap;
 	public:
 		ScreenPacket();
 		ScreenPacket(int state);
@@ -25,7 +28,7 @@ class ScreenPacket : public Packet{
 		quint32 row() const;
 		quint32 col() const;
 		const Rect& rect() const;
-		const QPixmap& pixmap() const;
+		QPixmap pixmap() const;
 	public:
 		QDataStream& serialize(QDataStream& stream) const;
 		QDataStream& unserialize(QDataStream& stream);
