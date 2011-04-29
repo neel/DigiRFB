@@ -74,7 +74,7 @@ bool Util::setResolution(Resolution* res){
 
 QPixmap Util::grabScreen(const DG::Rect* rect){
 	mutex.lock();
-/*
+
 	HDC hdc=GetWindowDC(NULL);
 	HWND win=WindowFromDC(hdc);
 
@@ -92,9 +92,17 @@ QPixmap Util::grabScreen(const DG::Rect* rect){
 	buff = new char[rect->size()];
 	GetBitmapBits(temp,rect->size(),buff);
 
+	qDebug() << "temp" << temp;
+	if(temp == 0x0){
+		qDebug() << "hdc" << hdc;
+	}
+
+	DeleteDC(cdc);
+	ReleaseDC(NULL, hdc);
+	DeleteDC(hdc);
+
 	QPixmap pixmap = QPixmap::fromWinHBITMAP(temp);
-*/
-	QPixmap pixmap = QPixmap::grabWidget(desktopWidget,rect->toQRect());
+	//QPixmap pixmap = QPixmap::grabWidget(desktopWidget,rect->toQRect());
 	mutex.unlock();
 	return pixmap;
 

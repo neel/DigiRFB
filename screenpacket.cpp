@@ -78,6 +78,7 @@ QDataStream& ScreenPacket::unserialize(QDataStream& stream){
 }
 
 quint64 ScreenPacket::size() const{
+	return 0;
 	return ((sizeof(*this)-(sizeof(_buffer)+sizeof(_pixmapGenerated)+sizeof(_pixmap)))+_buffer.size());
 }
 
