@@ -11,6 +11,7 @@ namespace DG{
 	class ScreenPacket;
 	class Rect;
 	class MatrixStorageItem;
+	class UpdateThread;
 }
 
 namespace DG{

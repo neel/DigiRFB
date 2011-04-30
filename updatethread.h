@@ -20,6 +20,9 @@ class UpdateThread : public QThread{
 		void run();
 	public slots:
 		void tick();
+	public:
+		void pause();
+		void resume();
 };
 }
 #endif // UPDATETHREAD_H

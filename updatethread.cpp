@@ -20,3 +20,11 @@ void UpdateThread::tick(){
 	qDebug() << currentThread() << "tick";
 	_area->update();
 }
+
+void UpdateThread::pause(){
+	timer->stop();
+}
+
+void UpdateThread::resume(){
+	timer->start();
+}

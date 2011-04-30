@@ -3,19 +3,27 @@
 #include "matrixstorage.h"
 #include "screenpacket.h"
 #include <QMutexLocker>
+#include "updatethread.h"
 
 using namespace DG;
-RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage), requestCount(0){
+RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage), requestCount(0), maxQueueSize(64), minQueueSize(16){
 	connect(_storage, SIGNAL(enqueued()), this, SLOT(rectAdded()));
 }
 
 void RequestController::rectAdded(){
+	qDebug() << "rectQueueSize: " << packetCount();
 	_send();
+	if(packetCount() >= maxQueueSize){
+		pauseThreads();
+	}
 }
 
 void RequestController::request(){
 	++requestCount;
 	_send();
+	if(packetCount() <= minQueueSize){
+		resumeThreads();
+	}
 }
 
 int RequestController::packetCount() const{
@@ -31,3 +39,22 @@ void RequestController::_send(){
 		requestCount = 0;
 	}
 }
+
+void RequestController::addThread(DG::UpdateThread* thread){
+	threads << thread;
+}
+
+void RequestController::pauseThreads(){
+	QMutexLocker locker(&pauseMutex);
+	foreach(DG::UpdateThread* thread, threads){
+		thread->pause();
+	}
+}
+
+void RequestController::resumeThreads(){
+	QMutexLocker locker(&resumeMutex);
+	foreach(DG::UpdateThread* thread, threads){
+		thread->resume();
+	}
+}
+
