@@ -33,7 +33,7 @@ QByteArray CommonSocket::rcv(){
 */
 DG::Packet* CommonSocket::rcv(){
 	if(!packetQueue.isEmpty()){
-		qDebug() << "!! packetQueue.size" << packetQueue.size();
+		//qDebug() << "!! packetQueue.size" << packetQueue.size();
 		DG::Packet* packet = packetQueue.dequeue();
 		if(packet->type() == Packet::MessagePacket){
 			DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
@@ -57,7 +57,7 @@ quint64 CommonSocket::send(DG::Packet* packet){
 		qDebug() << ">>" << m->message();
 	}else{
 		DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(packet);
-		qDebug() << ">> screen [" << s->row() << s->col() << "]";
+		qDebug() << ">> screen [" << s->rect().left << s->rect().top << "]";
 	}
 	return packet->size();
 }

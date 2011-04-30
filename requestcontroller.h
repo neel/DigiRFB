@@ -2,6 +2,7 @@
 #define REQUESTCONTROLLER_H
 
 #include <QObject>
+#include <QMutex>
 
 namespace DG{
 	class ClientSocket;
@@ -11,6 +12,8 @@ namespace DG{
 namespace DG{
 class RequestController: public QObject{
 	Q_OBJECT
+	private:
+		QMutex mutex;
 	private:
 		DG::ClientSocket* _socket;
 		DG::MatrixStorage* _storage;

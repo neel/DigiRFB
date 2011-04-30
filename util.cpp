@@ -46,7 +46,6 @@ QList<Resolution*> Util::SupportedResolutions(){
 		}
 		if(!matched && resolution != 0x0){
 			supportedResolutions << resolution;
-			qDebug() << index-1 << dm.dmPelsWidth << dm.dmPelsHeight;
 		}
 	}
 	return supportedResolutions;
