@@ -2,6 +2,7 @@
 #define UPDATETHREAD_H
 
 #include <QThread>
+#include <QMutex>
 
 class QTimer;
 
@@ -12,6 +13,9 @@ namespace DG{
 namespace DG{
 class UpdateThread : public QThread{
 	Q_OBJECT
+	private:
+		QMutex starterMutex;
+		QMutex stoperMutex;
 	private:
 		QTimer* timer;
 		DG::RectArea* _area;

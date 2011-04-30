@@ -2,6 +2,7 @@
 #include "rectarea.h"
 #include <QTimer>
 #include <QDebug>
+#include <QMutexLocker>
 
 using namespace DG;
 UpdateThread::UpdateThread(DG::RectArea* area, QObject *parent):QThread(parent), _area(area){
@@ -22,9 +23,13 @@ void UpdateThread::tick(){
 }
 
 void UpdateThread::pause(){
+	QMutexLocker locker(&stoperMutex);
 	timer->stop();
+	qDebug() << "Stopping " << timer;
 }
 
 void UpdateThread::resume(){
+	QMutexLocker locker(&starterMutex);
 	timer->start();
+	qDebug() << "Starting " << timer;
 }

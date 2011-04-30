@@ -18,6 +18,8 @@ class RequestController: public QObject{
 		const quint8 maxQueueSize;
 		const quint8 minQueueSize;
 	private:
+		bool paused;
+	private:
 		QList<UpdateThread*> threads;
 	private:
 		QMutex mutex;

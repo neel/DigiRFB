@@ -8,6 +8,7 @@
 using namespace DG;
 RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage), requestCount(0), maxQueueSize(64), minQueueSize(16){
 	connect(_storage, SIGNAL(enqueued()), this, SLOT(rectAdded()));
+	paused = false;
 }
 
 void RequestController::rectAdded(){
@@ -46,15 +47,21 @@ void RequestController::addThread(DG::UpdateThread* thread){
 
 void RequestController::pauseThreads(){
 	QMutexLocker locker(&pauseMutex);
-	foreach(DG::UpdateThread* thread, threads){
-		thread->pause();
+	if(!paused){
+		foreach(DG::UpdateThread* thread, threads){
+			thread->pause();
+		}
+		paused = true;
 	}
 }
 
 void RequestController::resumeThreads(){
 	QMutexLocker locker(&resumeMutex);
-	foreach(DG::UpdateThread* thread, threads){
-		thread->resume();
+	if(paused){
+		foreach(DG::UpdateThread* thread, threads){
+			thread->resume();
+		}
+		paused = false;
 	}
 }
 

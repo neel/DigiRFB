@@ -104,6 +104,7 @@ void ClientSocket::prepare(DG::Resolution* resolution){
 			rectArea->assignItems(list);
 			DG::UpdateThread* thread = new DG::UpdateThread(rectArea);
 			qDebug() << "Rect Area" << i << j << thread;
+			controller->addThread(thread);
 			thread->start();
 		}
 	}
