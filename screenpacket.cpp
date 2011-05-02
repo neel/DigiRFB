@@ -84,6 +84,6 @@ quint64 ScreenPacket::size() const{
 
 QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{
 	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(pixmap());
-	item->setOffset(_rect.left, _rect.top);
+	item->setOffset(_rect.top, _rect.left);
 	return item;
 }
