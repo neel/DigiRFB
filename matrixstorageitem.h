@@ -8,6 +8,7 @@
 namespace DG{
 	class MatrixStorage;
 	class Rect;
+	class ScreenPacket;
 }
 
 namespace DG{
@@ -26,6 +27,8 @@ struct MatrixStorageItem{
 		virtual ~MatrixStorageItem();
 	public:
 		bool update();
+	public:
+		ScreenPacket* packet(int state) const;
 };
 }
 #endif // MATRIXSTORAGEITEM_H

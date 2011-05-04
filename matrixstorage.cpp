@@ -14,8 +14,8 @@ MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, qui
 	quint32 rectWidth = resolution->y()/rows;
 	for(int i=0;i<rows;++i){
 		for(int j=0;j<cols;++j){
-			//qDebug() << "Rect Created :" << j*rectWidth << i*rectHeight << rectWidth << rectHeight;
-			Rect* rect = new Rect(j*rectWidth, i*rectHeight, rectWidth, rectHeight);
+			qDebug() << "Rect Created :" << i*rectHeight << j*rectWidth << rectWidth << rectHeight;
+			Rect* rect = new Rect(i*rectHeight, j*rectWidth, rectWidth, rectHeight);
 			MatrixStorageItem* item = new MatrixStorageItem(this, rect);
 			items[index(i, j)] = item;
 		}
@@ -57,5 +57,6 @@ int MatrixStorage::queueSize() const{
 ScreenPacket* MatrixStorage::next(int state){
 	QMutexLocker lock(&nMutex);
 	qDebug() << "queue.size(): " << queue.size();
-	return queue.dequeue()->rect->packet(state);
+	//return queue.dequeue()->rect->packet(state);
+	return queue.dequeue()->packet(state);
 }

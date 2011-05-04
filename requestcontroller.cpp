@@ -28,7 +28,9 @@ void RequestController::_send(){
 	QMutexLocker locker(&mutex);
 	if(requestCount > 0 && packetCount() > 0){
 		while(requestCount-- > 0){
-			_socket->send(_storage->next(10));
+			DG::ScreenPacket* packet = _storage->next(10);
+			packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
+			_socket->send(packet);
 		}
 		requestCount = 0;
 	}

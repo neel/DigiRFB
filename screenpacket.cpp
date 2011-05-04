@@ -34,7 +34,7 @@ void ScreenPacket::setIndex(quint32 row, quint32 col){
 
 void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	QImage image = pixmap.toImage();
-	QPainter painter;
+	/*QPainter painter;
 	painter.begin(&image);
 	painter.setPen(Qt::blue);
 	painter.setFont(QFont("Arial", 12));
@@ -45,7 +45,7 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	painter.drawRect(image.rect());
 	painter.setPen(Qt::blue);
 	painter.drawRect(_rect.toQRect());
-	painter.end();
+	painter.end();*/
 	QBuffer buffer;
 	buffer.setBuffer(&_buffer);
 	buffer.open(QBuffer::WriteOnly);
@@ -54,7 +54,8 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	writer.setQuality(32);
 	writer.setCompression(1);
 	_pixmapGenerated = writer.write(image);
-	_pixmap = pixmap;
+	//_pixmap = pixmap;
+	_pixmap = QPixmap::fromImage(image);
 }
 
 quint32 ScreenPacket::row() const{
