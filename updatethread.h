@@ -14,8 +14,7 @@ namespace DG{
 class UpdateThread : public QThread{
 	Q_OBJECT
 	private:
-		QMutex starterMutex;
-		QMutex stoperMutex;
+		QMutex mutex;
 	private:
 		QTimer* timer;
 		DG::RectArea* _area;

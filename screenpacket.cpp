@@ -7,6 +7,8 @@
 #include <QImageWriter>
 #include <QImageReader>
 #include <QBuffer>
+#include <QPainter>
+#include <QFont>
 
 using namespace DG;
 
@@ -32,6 +34,18 @@ void ScreenPacket::setIndex(quint32 row, quint32 col){
 
 void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	QImage image = pixmap.toImage();
+	QPainter painter;
+	painter.begin(&image);
+	painter.setPen(Qt::blue);
+	painter.setFont(QFont("Arial", 12));
+	painter.drawText(10, 10, QString::number(_rect.left));
+	painter.setPen(Qt::red);
+	painter.drawText(10, 20, QString::number(_rect.top));
+	painter.setPen(Qt::green);
+	painter.drawRect(image.rect());
+	painter.setPen(Qt::blue);
+	painter.drawRect(_rect.toQRect());
+	painter.end();
 	QBuffer buffer;
 	buffer.setBuffer(&_buffer);
 	buffer.open(QBuffer::WriteOnly);

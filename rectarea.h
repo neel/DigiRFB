@@ -25,6 +25,8 @@ class RectArea{
 		RectArea(MatrixStorage* storage);
 		void assignItems(QList<MatrixStorageItem*> items);
 		void update();
+	public:
+		MatrixStorage* storage() const;
 };
 }
 #endif // RECTAREA_H

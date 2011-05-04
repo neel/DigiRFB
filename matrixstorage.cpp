@@ -14,6 +14,7 @@ MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, qui
 	quint32 rectWidth = resolution->y()/rows;
 	for(int i=0;i<rows;++i){
 		for(int j=0;j<cols;++j){
+			//qDebug() << "Rect Created :" << j*rectWidth << i*rectHeight << rectWidth << rectHeight;
 			Rect* rect = new Rect(j*rectWidth, i*rectHeight, rectWidth, rectHeight);
 			MatrixStorageItem* item = new MatrixStorageItem(this, rect);
 			items[index(i, j)] = item;

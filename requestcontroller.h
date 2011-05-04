@@ -14,17 +14,15 @@ namespace DG{
 namespace DG{
 class RequestController: public QObject{
 	Q_OBJECT
-	private:
-		const quint8 maxQueueSize;
-		const quint8 minQueueSize;
+	public:
+		static const quint8 maxQueueSize;
+		static const quint8 minQueueSize;
 	private:
 		bool paused;
 	private:
 		QList<UpdateThread*> threads;
 	private:
 		QMutex mutex;
-		QMutex pauseMutex;
-		QMutex resumeMutex;
 	private:
 		DG::ClientSocket* _socket;
 		DG::MatrixStorage* _storage;
@@ -41,8 +39,6 @@ class RequestController: public QObject{
 		void _send();
 	public:
 		void addThread(DG::UpdateThread* thread);
-		void pauseThreads();
-		void resumeThreads();
 };
 }
 #endif // REQUESTCONTROLLER_H

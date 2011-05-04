@@ -3,6 +3,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <QMutexLocker>
+#include "matrixstorage.h"
+#include "requestcontroller.h"
 
 using namespace DG;
 UpdateThread::UpdateThread(DG::RectArea* area, QObject *parent):QThread(parent), _area(area){
@@ -18,18 +20,9 @@ void UpdateThread::run(){
 }
 
 void UpdateThread::tick(){
+	QMutexLocker locker(&mutex);
 	qDebug() << currentThread() << "tick";
-	_area->update();
+	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
+		_area->update();
 }
 
-void UpdateThread::pause(){
-	QMutexLocker locker(&stoperMutex);
-	timer->stop();
-	qDebug() << "Stopping " << timer;
-}
-
-void UpdateThread::resume(){
-	QMutexLocker locker(&starterMutex);
-	timer->start();
-	qDebug() << "Starting " << timer;
-}
