@@ -15,11 +15,11 @@ void RectArea::assignItems(QList<MatrixStorageItem*> items){
 }
 
 void RectArea::update(){
+	mutex.lock();
 	foreach(MatrixStorageItem* item, _items){
-		mutex.lock();
 		item->update();
-		mutex.unlock();
 	}
+	mutex.unlock();
 }
 
 MatrixStorage* RectArea::storage() const{

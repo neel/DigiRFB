@@ -15,7 +15,7 @@
 using namespace DG;
 
 ClientSocket::ClientSocket(QObject* parent):CommonSocket(parent), storage(0x0),
-divisionCols(4), divisionRows(4), rectCols(4), rectRows(4){
+divisionCols(1), divisionRows(16), rectCols(1), rectRows(1){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 }
 
@@ -90,17 +90,19 @@ void ClientSocket::msgReceived(){
 }
 
 void ClientSocket::prepare(DG::Resolution* resolution){
-	storage = new DG::MatrixStorage(resolution, divisionCols*rectCols, divisionRows*rectRows);
+	storage = new DG::MatrixStorage(resolution, divisionRows*rectRows, divisionCols*rectCols);
 	controller = new DG::RequestController(this, storage);
 	for(int i=0;i<divisionRows;++i){
 		for(int j=0;j<divisionCols;++j){
 			QList<DG::MatrixStorageItem*> list;
 			DG::RectArea* rectArea = new DG::RectArea(storage);
+
 			for(int k=i*rectRows;k<(i+1)*rectRows;++k){
 				for(int l=j*rectCols;l<(j+1)*rectCols;++l){
 					list << storage->item(k, l);
 				}
 			}
+
 			rectArea->assignItems(list);
 			DG::UpdateThread* thread = new DG::UpdateThread(rectArea);
 			qDebug() << "Rect Area" << i << j << thread;

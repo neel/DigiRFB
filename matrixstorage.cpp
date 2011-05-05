@@ -10,12 +10,12 @@ using namespace DG;
 
 MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, quint16 cols): _rows(rows), _cols(cols){
 	items.reserve(rows*cols*sizeof(MatrixStorageItem*));
-	quint32 rectHeight = resolution->x()/cols;
-	quint32 rectWidth = resolution->y()/rows;
+	quint32 rectWidth = resolution->x()/cols;
+	quint32 rectHeight = resolution->y()/rows;
 	for(int i=0;i<rows;++i){
 		for(int j=0;j<cols;++j){
-			qDebug() << "Rect Created :" << i*rectHeight << j*rectWidth << rectWidth << rectHeight;
-			Rect* rect = new Rect(i*rectHeight, j*rectWidth, rectWidth, rectHeight);
+			qDebug() << "Rect Created :" << j*rectWidth << i*rectHeight << rectWidth << rectHeight;
+			Rect* rect = new Rect(j*rectWidth, i*rectHeight, rectWidth, rectHeight);
 			MatrixStorageItem* item = new MatrixStorageItem(this, rect);
 			items[index(i, j)] = item;
 		}

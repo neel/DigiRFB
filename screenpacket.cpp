@@ -9,6 +9,7 @@
 #include <QBuffer>
 #include <QPainter>
 #include <QFont>
+#include <QDateTime>
 
 using namespace DG;
 
@@ -36,15 +37,9 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	QImage image = pixmap.toImage();
 	QPainter painter;
 	painter.begin(&image);
-	painter.setPen(Qt::blue);
-	painter.setFont(QFont("Arial", 12));
-	painter.drawText(10, 10, QString::number(_rect.left));
 	painter.setPen(Qt::red);
-	painter.drawText(10, 20, QString::number(_rect.top));
-	painter.setPen(Qt::green);
-	painter.drawRect(image.rect());
-	painter.setPen(Qt::blue);
-	painter.drawRect(_rect.toQRect());
+	painter.setFont(QFont("Courier new", 8));
+	painter.drawText(5, 40, QString::number(QTime::currentTime().second()));
 	painter.end();
 	QBuffer buffer;
 	buffer.setBuffer(&_buffer);
@@ -52,7 +47,7 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	buffer.seek(0);
 	QImageWriter writer(&buffer, "jpeg");
 	writer.setQuality(32);
-	writer.setCompression(1);
+	writer.setCompression(90);
 	_pixmapGenerated = writer.write(image);
 	//_pixmap = pixmap;
 	_pixmap = QPixmap::fromImage(image);
@@ -99,6 +94,6 @@ quint64 ScreenPacket::size() const{
 
 QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{
 	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(pixmap());
-	item->setOffset(_rect.top, _rect.left);
+	item->setOffset(_rect.left, _rect.top);
 	return item;
 }
