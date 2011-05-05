@@ -4,7 +4,6 @@
 #include "screenpacket.h"
 #include <QMutexLocker>
 #include "updatethread.h"
-#include <QApplication>
 
 using namespace DG;
 RequestController::RequestController(DG::ClientSocket* socket, DG::MatrixStorage* storage): _socket(socket), _storage(storage), requestCount(0){
@@ -30,9 +29,8 @@ void RequestController::_send(){
 	if(requestCount > 0 && packetCount() > 0){
 		while(requestCount-- > 0){
 			DG::ScreenPacket* packet = _storage->next(10);
-			//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
+			packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
 			_socket->send(packet);
-			QApplication::beep();
 		}
 		requestCount = 0;
 	}

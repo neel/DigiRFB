@@ -32,7 +32,7 @@ quint32 MatrixStorage::index(quint16 row, quint16 col) const{
 }
 
 const ScreenPacket* MatrixStorage::packet(quint16 row, quint16 col, int state) const{
-	return item(row, col)->packet(state);
+	return item(row, col)->rect->packet(state);
 }
 
 MatrixStorageItem* MatrixStorage::item(quint16 row, quint16 col) const{
