@@ -21,7 +21,7 @@ void UpdateThread::run(){
 
 void UpdateThread::tick(){
 	QMutexLocker locker(&mutex);
-	qDebug() << currentThread() << "tick";
+	//qDebug() << currentThread() << "tick";
 	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
 		_area->update();
 }

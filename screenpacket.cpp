@@ -47,8 +47,9 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	buffer.seek(0);
 	QImageWriter writer(&buffer, "jpeg");
 	writer.setQuality(32);
-	writer.setCompression(90);
+	writer.setCompression(1);
 	_pixmapGenerated = writer.write(image);
+	_buffer = qCompress(_buffer, 9);
 	//_pixmap = pixmap;
 	_pixmap = QPixmap::fromImage(image);
 }
@@ -88,8 +89,8 @@ QDataStream& ScreenPacket::unserialize(QDataStream& stream){
 }
 
 quint64 ScreenPacket::size() const{
-	return 0;
-	return ((sizeof(*this)-(sizeof(_buffer)+sizeof(_pixmapGenerated)+sizeof(_pixmap)))+_buffer.size());
+	//return 0;
+	return sizeof(quint32)*2+sizeof(quint32)*4+sizeof(quint32)+_buffer.size();
 }
 
 QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{

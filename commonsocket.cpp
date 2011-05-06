@@ -50,7 +50,9 @@ quint64 CommonSocket::send(const QByteArray& bytes){
 }
 */
 quint64 CommonSocket::send(DG::Packet* packet){
-	sockStream << DG::Packet::CommonHeader(packet->size(), packet->type());
+	DG::Packet::CommonHeader header = DG::Packet::CommonHeader(packet->size(), packet->type());
+	sockStream << header;
+	qDebug() << "Sending Header: " << header.id << header.size;
 	sockStream << *packet;
 	if(packet->type() == Packet::MessagePacket){
 		DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
