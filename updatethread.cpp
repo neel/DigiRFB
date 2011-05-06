@@ -15,13 +15,13 @@ void UpdateThread::run(){
 	timer = new QTimer();
 	timer->setSingleShot(false);
 	connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
-	timer->start(1000);
+	timer->start(100);
 	exec();
 }
 
 void UpdateThread::tick(){
 	QMutexLocker locker(&mutex);
-	//qDebug() << currentThread() << "tick";
+	qDebug() << currentThread() << "tick";
 	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
 		_area->update();
 }

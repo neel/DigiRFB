@@ -15,7 +15,7 @@
 using namespace DG;
 
 ClientSocket::ClientSocket(QObject* parent):CommonSocket(parent), storage(0x0),
-divisionCols(1), divisionRows(16), rectCols(1), rectRows(1){
+divisionCols(4), divisionRows(4), rectCols(2), rectRows(2){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 }
 

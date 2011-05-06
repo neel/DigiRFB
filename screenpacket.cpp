@@ -91,6 +91,7 @@ QDataStream& ScreenPacket::unserialize(QDataStream& stream){
 quint64 ScreenPacket::size() const{
 	//return 0;
 	return sizeof(quint32)*2+sizeof(quint32)*4+sizeof(quint32)+_buffer.size();
+	//Seeing the Output It looks like I should add another 8
 }
 
 QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{
