@@ -39,6 +39,7 @@ class RequestController: public QObject{
 		void _send();
 	public:
 		void addThread(DG::UpdateThread* thread);
+		void allThreadsAdded();
 };
 }
 #endif // REQUESTCONTROLLER_H

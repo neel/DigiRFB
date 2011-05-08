@@ -37,9 +37,10 @@ void ScreenPacket::setPixmap(const QPixmap& pixmap){
 	QImage image = pixmap.toImage();
 	QPainter painter;
 	painter.begin(&image);
+	painter.fillRect(0, 0, 30, image.height()-10, Qt::white);
 	painter.setPen(Qt::red);
-	painter.setFont(QFont("Courier new", 8));
-	painter.drawText(5, 40, QString::number(QTime::currentTime().second()));
+	painter.setFont(QFont("Courier new", 12));
+	painter.drawText(5, 10, QString::number(QTime::currentTime().second()));
 	painter.end();
 	QBuffer buffer;
 	buffer.setBuffer(&_buffer);

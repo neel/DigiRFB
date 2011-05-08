@@ -20,8 +20,7 @@ namespace DG{
 	*/
 class Util{
 	private:
-		static QDesktopWidget* desktop;
-		static QWidget* desktopWidget;
+		static WId winId;
 	public:
 		static void _init();
 	private:

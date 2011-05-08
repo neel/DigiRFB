@@ -5,24 +5,25 @@
 #include <QMutexLocker>
 #include "matrixstorage.h"
 #include "requestcontroller.h"
+#include <QThreadPool>
+#include <assert.h>
 
 using namespace DG;
-UpdateThread::UpdateThread(DG::RectArea* area, QObject *parent):QThread(parent), _area(area){
-
+UpdateThread::UpdateThread(DG::RectArea* area): _area(area){
+	setAutoDelete(false);
 }
 
 void UpdateThread::run(){
-	timer = new QTimer();
-	timer->setSingleShot(false);
-	connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
-	timer->start(100);
-	exec();
-}
-
-void UpdateThread::tick(){
 	QMutexLocker locker(&mutex);
-	qDebug() << currentThread() << "tick";
+	//qDebug() << this << "UpdateThread::run()";
 	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
 		_area->update();
+	qDebug() << "Starting " << _next;
+	QThreadPool::globalInstance()->start(this);
+}
+
+void UpdateThread::setNext(DG::UpdateThread* thread){
+	assert(thread != 0x0);
+	_next = thread;
 }
 

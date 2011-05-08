@@ -11,11 +11,12 @@
 #include <QList>
 #include <QDebug>
 #include "requestcontroller.h"
+#include <QThreadPool>
 
 using namespace DG;
 
 ClientSocket::ClientSocket(QObject* parent):CommonSocket(parent), storage(0x0),
-divisionCols(4), divisionRows(4), rectCols(2), rectRows(2){
+divisionCols(1), divisionRows(1), rectCols(1), rectRows(16){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
 }
 
@@ -90,6 +91,7 @@ void ClientSocket::msgReceived(){
 }
 
 void ClientSocket::prepare(DG::Resolution* resolution){
+	Util::_init();
 	storage = new DG::MatrixStorage(resolution, divisionRows*rectRows, divisionCols*rectCols);
 	controller = new DG::RequestController(this, storage);
 	for(int i=0;i<divisionRows;++i){
@@ -107,7 +109,10 @@ void ClientSocket::prepare(DG::Resolution* resolution){
 			DG::UpdateThread* thread = new DG::UpdateThread(rectArea);
 			qDebug() << "Rect Area" << i << j << thread;
 			controller->addThread(thread);
-			thread->start();
+			//thread->start();
+			QThreadPool::globalInstance()->setMaxThreadCount(8);
+			QThreadPool::globalInstance()->start(thread);
 		}
 	}
+	controller->allThreadsAdded();
 }

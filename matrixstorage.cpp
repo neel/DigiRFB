@@ -41,7 +41,7 @@ MatrixStorageItem* MatrixStorage::item(quint16 row, quint16 col) const{
 
 void MatrixStorage::setUpdated(MatrixStorageItem* item){
 	QMutexLocker lock(&mutex);
-	qDebug() << "Updating " << item->rect->left << item->rect->top;
+	qDebug() << "MatrixStorage::setUpdated() " << item->rect->left << item->rect->top << "item->updated " << item->updated << "queueSize: " << queueSize();
 	if(!item->updated){
 		item->updated = true;
 		item->sent = false;
@@ -58,5 +58,8 @@ ScreenPacket* MatrixStorage::next(int state){
 	QMutexLocker lock(&nMutex);
 	qDebug() << "queue.size(): " << queue.size();
 	//return queue.dequeue()->rect->packet(state);
-	return queue.dequeue()->packet(state);
+	MatrixStorageItem* item = queue.dequeue();
+	item->updated = false;
+	item->sent = true;
+	return item->packet(state);
 }

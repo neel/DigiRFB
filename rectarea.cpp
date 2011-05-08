@@ -16,6 +16,7 @@ void RectArea::assignItems(QList<MatrixStorageItem*> items){
 
 void RectArea::update(){
 	mutex.lock();
+	//qDebug() << this << "RectArea::update()";
 	foreach(MatrixStorageItem* item, _items){
 		item->update();
 	}

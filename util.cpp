@@ -103,8 +103,7 @@ QPixmap Util::grabScreen(const DG::Rect* rect){
 	DeleteDC(hdc);
 */
 	//QPixmap pixmap = QPixmap::fromWinHBITMAP(temp);
-	static QDesktopWidget* desktopWidget = new QDesktopWidget;
-	QPixmap pixmap = QPixmap::grabWindow(desktopWidget->screen(desktopWidget->primaryScreen())->winId(),rect->left, rect->top, rect->width, rect->height);
+	QPixmap pixmap = QPixmap::grabWindow(Util::winId,rect->left, rect->top, rect->width, rect->height);
 	mutex.unlock();
 	return pixmap;
 
@@ -138,10 +137,9 @@ bool Util::setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap){
 */
 
 void Util::_init(){
-	Util::desktop = new QDesktopWidget;
-	Util::desktopWidget = Util::desktop->screen(Util::desktop->primaryScreen());
+	QDesktopWidget* desktopWidget = new QDesktopWidget;
+	Util::winId = desktopWidget->screen(desktopWidget->primaryScreen())->winId();
 }
 
-QDesktopWidget* DG::Util::desktop;
-QWidget* DG::Util::desktopWidget;
+WId DG::Util::winId;
 QMutex DG::Util::mutex;

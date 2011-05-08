@@ -19,7 +19,6 @@ INPUT(
 ./release\moc_clientsocket.o
 ./release\moc_serversocket.o
 ./release\moc_matrixstorage.o
-./release\moc_updatethread.o
 ./release\moc_server.o
 ./release\moc_requestcontroller.o
 );
