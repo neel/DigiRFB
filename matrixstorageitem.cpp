@@ -17,11 +17,11 @@ MatrixStorageItem::~MatrixStorageItem(){
 
 bool MatrixStorageItem::update(){
 	QMutexLocker lock(&mutex);
-	QPixmap currentPixmap = Util::grabScreen(rect);
+	QImage currentScreen = Util::grabScreen(rect).toImage();
 	//qDebug() << "MatrixStorageItem::update() Rect # " << rect->left << rect->top << rect->height << rect->width;
-	if(currentPixmap.toImage() != _cache.toImage()){
+	if(!DG::Util::compare(currentScreen, _cache)){
 		//currentPixmap.toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(rect->left).arg(rect->top), "JPEG");
-		_cache = currentPixmap;
+		_cache = currentScreen;
 		qDebug() << "MatrixStorageItem::update() Unmatched" << rect->left << rect->top << "updated: " << updated << "queueSize: " << _storage->queueSize();
 		if(!updated){
 			_storage->setUpdated(this);
@@ -36,6 +36,6 @@ bool MatrixStorageItem::update(){
 ScreenPacket* MatrixStorageItem::packet(int state) const{
 	DG::ScreenPacket* screen = new DG::ScreenPacket(state);
 	screen->setRect(*rect);
-	screen->setPixmap(_cache);
+	screen->setImage(_cache);
 	return screen;
 }

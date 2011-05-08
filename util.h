@@ -6,6 +6,7 @@
 #include "windows.h"
 #include <QPixmap>
 #include <QMutex>
+#include <QImage>
 
 class QDesktopWidget;
 
@@ -31,7 +32,7 @@ class Util{
 		static QList<Resolution*> SupportedResolutions();
 		static bool setResolution(Resolution* res);
 		static QPixmap grabScreen(const DG::Rect* rect);
-		/*static bool setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap);*/
+		static bool compare(const QImage& l, const QImage& r);
 };
 }
 #endif // UTIL_H

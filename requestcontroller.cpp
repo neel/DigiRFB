@@ -20,7 +20,8 @@ void RequestController::rectAdded(){
 void RequestController::request(){
 	++requestCount;
 	qDebug() << "Requested " << requestCount;
-	_send();
+	if(requestCount >= 0)
+		_send();
 }
 
 int RequestController::packetCount() const{
@@ -36,23 +37,25 @@ void RequestController::_send(){
 			DG::ScreenPacket* packet = _storage->next(10);
 			//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
 			_socket->send(packet);
-			QApplication::beep();
+			//QApplication::beep();
 		}
 		requestCount = 0;
 	}
-/*
-	qDebug() << "packetCount(): " << packetCount();
-	if(packetCount() >= RequestController::maxQueueSize){
-		while(packetCount() >= RequestController::minQueueSize){
-			DG::ScreenPacket* packet = _storage->next(10);
-			//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
-			_socket->send(packet);
-			QApplication::beep();
-			--requestCount;
-			qDebug() << "Forcing " << requestCount;
+
+	if(requestCount >= 0){
+		qDebug() << "packetCount(): " << packetCount();
+		if(packetCount() >= RequestController::maxQueueSize){
+			while(packetCount() >= RequestController::minQueueSize){
+				DG::ScreenPacket* packet = _storage->next(10);
+				//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
+				_socket->send(packet);
+				QApplication::beep();
+				--requestCount;
+				qDebug() << "Forcing " << requestCount;
+			}
 		}
 	}
-*/
+
 }
 
 void RequestController::addThread(DG::UpdateThread* thread){
@@ -67,5 +70,5 @@ void RequestController::allThreadsAdded(){
 	threads.at(threads.count()-1)->setNext(threads.at(0));
 }
 
-const quint8 RequestController::minQueueSize = 1;
-const quint8 RequestController::maxQueueSize = 2;
+const quint8 RequestController::minQueueSize = 4;
+const quint8 RequestController::maxQueueSize = 10;

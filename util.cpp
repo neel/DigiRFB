@@ -9,7 +9,6 @@
 using namespace DG;
 
 DISPLAY_DEVICE Util::GetPrimaryDevice(){
-
 	int index=0;
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
@@ -18,7 +17,6 @@ DISPLAY_DEVICE Util::GetPrimaryDevice(){
 			if (dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
 	}
 	return dd;
-
 }
 
 Resolution* Util::currentResolution(){
@@ -52,7 +50,6 @@ QList<Resolution*> Util::SupportedResolutions(){
 }
 
 bool Util::setResolution(Resolution* res){
-
 	long PelsWidth = res->x();
 	long PelsHeight = res->y();
 	DISPLAY_DEVICE dd = GetPrimaryDevice();
@@ -68,78 +65,25 @@ bool Util::setResolution(Resolution* res){
 			return false;
 	}
 	return (ChangeDisplaySettings(&dm, 0)==DISP_CHANGE_SUCCESSFUL);
-
 }
 
 QPixmap Util::grabScreen(const DG::Rect* rect){
 	mutex.lock();
-/*
-	HDC hdc=GetWindowDC(NULL);
-	HWND win=WindowFromDC(hdc);
-
-	HDC cdc=CreateCompatibleDC(hdc);
-	HBITMAP temp=CreateCompatibleBitmap(hdc,rect->width,rect->height);
-	PAINTSTRUCT ps;
-
-	hdc=BeginPaint(win,&ps);
-	HBITMAP oldb=(HBITMAP)SelectObject(cdc,temp);
-	BitBlt(cdc,0,0,rect->width,rect->height,hdc,rect->left,rect->top,SRCCOPY);
-	SelectObject(cdc,oldb);
-	EndPaint(win,&ps);
-
-	qDebug() << "Capturing : " << rect->left << rect->top;
-
-	char* buff;
-	buff = new char[rect->size()];
-	GetBitmapBits(temp,rect->size(),buff);
-
-	qDebug() << "temp" << temp;
-	if(temp == 0x0){
-		qDebug() << "hdc" << hdc;
-	}
-
-	//DeleteDC(cdc);
-	ReleaseDC(NULL, hdc);
-	DeleteDC(hdc);
-*/
-	//QPixmap pixmap = QPixmap::fromWinHBITMAP(temp);
 	QPixmap pixmap = QPixmap::grabWindow(Util::winId,rect->left, rect->top, rect->width, rect->height);
 	mutex.unlock();
 	return pixmap;
 
 }
-/*
-bool Util::setScreen(DG::Rect* rect, HWND hwnd, const QPixmap& pixmap){
-	HDC hdc = GetWindowDC(hwnd);
-	HBITMAP scrn = CreateCompatibleBitmap(hdc,rect->width,rect->height);
-	SetBitmapBits(scrn, rect->size(), rect->buffer.data());
-
-	BITMAP bm;
-	PAINTSTRUCT ps;
-	HDC whdc = BeginPaint(hwnd, &ps);
-	HDC hdcMem = CreateCompatibleDC(whdc);
-	HBITMAP hbmOld = (HBITMAP)SelectObject(hdcMem, scrn);
-	GetObject(scrn, sizeof(bm), &bm);
-	BitBlt(whdc, rect->left, rect->top, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
-	SelectObject(hdcMem, hbmOld);
-	DeleteDC(hdcMem);
-	EndPaint(hwnd, &ps);
-
-	RECT wRect;
-	wRect.left = rect->left;
-	wRect.top = rect->top;
-	wRect.right = rect->left+rect->width;
-	wRect.bottom = rect->top+rect->height;
-	InvalidateRect(hwnd, &wRect, false);
-
-	return true;
-}
-*/
 
 void Util::_init(){
 	QDesktopWidget* desktopWidget = new QDesktopWidget;
 	Util::winId = desktopWidget->screen(desktopWidget->primaryScreen())->winId();
 }
 
+bool Util::compare(const QImage& l, const QImage& r){
+	return l == r;
+}
+
 WId DG::Util::winId;
 QMutex DG::Util::mutex;
+

@@ -40,10 +40,14 @@ Rect& Rect::operator=(const Rect& rect){
 }
 
 ScreenPacket* Rect::packet(int state) const{
+	qWarning("Should not be Called!!");
+	/*
 	DG::ScreenPacket* screen = new DG::ScreenPacket(state);
 	screen->setRect(*this);
-	screen->setPixmap(DG::Util::grabScreen(this));
-	return screen;
+	screen->setImage(DG::Util::grabScreen(this));
+	*/
+	//return screen;
+	return 0x0;
 }
 
 QDataStream& DG::operator<<(QDataStream& stream, const Rect& rect){

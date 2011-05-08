@@ -1,7 +1,7 @@
 #ifndef MATRIXSTORAGEITEM_H
 #define MATRIXSTORAGEITEM_H
 
-#include <QPixmap>
+#include <QImage>
 #include <QMutex>
 #include <QMutexLocker>
 
@@ -21,7 +21,7 @@ struct MatrixStorageItem{
 		bool sent;
 		bool updated;
 		Rect* rect;
-		QPixmap _cache;
+		QImage _cache;
 	public:
 		MatrixStorageItem(MatrixStorage* storage, Rect* rect);
 		virtual ~MatrixStorageItem();

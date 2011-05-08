@@ -5,6 +5,7 @@
 #include "rect.h"
 #include <QByteArray>
 #include <QPixmap>
+#include <QImage>
 
 class QGraphicsPixmapItem;
 
@@ -23,7 +24,7 @@ class ScreenPacket : public Packet{
 		ScreenPacket(int state);
 		void setRect(const Rect& rect);
 		void setIndex(quint32 row, quint32 col);
-		void setPixmap(const QPixmap& pixmap);
+		void setImage(const QImage& image);
 	public:
 		quint32 row() const;
 		quint32 col() const;
