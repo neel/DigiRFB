@@ -14,13 +14,15 @@
 #include "server.h"
 #include "clientsocket.h"
 
+#include "screenviewerwidget.h"
+
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
 	DG::Util::_init();
-
+/*
 	DG::ClientSocket* socket = new DG::ClientSocket;
 	socket->connectToHost("192.168.0.3", 5590);
-
+*/
 
 /*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
@@ -38,12 +40,21 @@ int main(int argc, char *argv[]){
 	scene.addEllipse(20, 20, 600, 300);
 	view.show();
 */
-/*
+
 	QGraphicsScene scene;
 	QGraphicsView view(&scene);
 	DG::Server* server = new DG::Server(&scene);
 	server->listen(5590);
 	view.show();
+
+/*
+	DG::ScreenViewerWidget* widget = new DG::ScreenViewerWidget;
+	QScrollArea* scroller = new QScrollArea;
+	scroller->setWidget(widget);
+	DG::Server* server = new DG::Server(widget);
+	server->listen(5590);
+	scroller->show();
 */
+
 	return a.exec();
 }

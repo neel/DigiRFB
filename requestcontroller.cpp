@@ -37,6 +37,7 @@ void RequestController::_send(){
 			DG::ScreenPacket* packet = _storage->next(10);
 			//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
 			_socket->send(packet);
+			delete packet;
 			//QApplication::beep();
 		}
 		requestCount = 0;
@@ -49,6 +50,7 @@ void RequestController::_send(){
 				DG::ScreenPacket* packet = _storage->next(10);
 				//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
 				_socket->send(packet);
+				delete packet;
 				QApplication::beep();
 				--requestCount;
 				qDebug() << "Forcing " << requestCount;
@@ -71,4 +73,4 @@ void RequestController::allThreadsAdded(){
 }
 
 const quint8 RequestController::minQueueSize = 4;
-const quint8 RequestController::maxQueueSize = 10;
+const quint8 RequestController::maxQueueSize = 8;

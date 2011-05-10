@@ -18,7 +18,8 @@ HEADERS += \
     rectarea.h \
     updatethread.h \
     server.h \
-    requestcontroller.h
+    requestcontroller.h \
+    screenviewerwidget.h
 
 SOURCES += \
     resolution.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     rectarea.cpp \
     updatethread.cpp \
     server.cpp \
-    requestcontroller.cpp
+    requestcontroller.cpp \
+    screenviewerwidget.cpp
 
 LIBS += -lgdi32

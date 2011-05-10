@@ -83,6 +83,7 @@ void ServerSocket::msgReceived(){
 				send(m);
 			}break;
 	}
+	delete p;
 }
 
 void ServerSocket::prepare(const DG::Resolution* resolution){

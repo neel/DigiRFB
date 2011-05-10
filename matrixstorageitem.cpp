@@ -23,12 +23,12 @@ bool MatrixStorageItem::update(){
 		//currentPixmap.toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(rect->left).arg(rect->top), "JPEG");
 		_cache = currentScreen;
 		qDebug() << "MatrixStorageItem::update() Unmatched" << rect->left << rect->top << "updated: " << updated << "queueSize: " << _storage->queueSize();
-		if(!updated){
+		//if(!updated){
 			_storage->setUpdated(this);
-		}
+		//}
 	}else{
 		qDebug() << "MatrixStorageItem::update() Matched" << rect->left << rect->top << "queueSize: " << _storage->queueSize();
-		updated = false;
+		//updated = false;
 	}
 	return updated;
 }

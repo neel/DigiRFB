@@ -15,10 +15,12 @@ INPUT(
 ./release\updatethread.o
 ./release\server.o
 ./release\requestcontroller.o
+./release\screenviewerwidget.o
 ./release\moc_commonsocket.o
 ./release\moc_clientsocket.o
 ./release\moc_serversocket.o
 ./release\moc_matrixstorage.o
 ./release\moc_server.o
 ./release\moc_requestcontroller.o
+./release\moc_screenviewerwidget.o
 );

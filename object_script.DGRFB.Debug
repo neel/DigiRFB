@@ -15,10 +15,12 @@ INPUT(
 ./debug\updatethread.o
 ./debug\server.o
 ./debug\requestcontroller.o
+./debug\screenviewerwidget.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o
 ./debug\moc_matrixstorage.o
 ./debug\moc_server.o
 ./debug\moc_requestcontroller.o
+./debug\moc_screenviewerwidget.o
 );

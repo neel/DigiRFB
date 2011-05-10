@@ -72,6 +72,7 @@ QPixmap ScreenPacket::pixmap() const{
 	if(_pixmapGenerated)
 		return _pixmap;
 	QBuffer buffer;
+	const_cast<QByteArray&>(_buffer) = qUncompress(_buffer);
 	buffer.setBuffer(const_cast<QByteArray*>(&_buffer));
 	buffer.open(QBuffer::ReadOnly);
 	QImageReader reader(&buffer, "jpeg");

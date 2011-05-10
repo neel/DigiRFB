@@ -24,7 +24,7 @@ class MatrixStorage: public QObject{
 		QMutex mutex;
 		QMutex nMutex;
 	private:
-		QQueue<MatrixStorageItem*> queue;
+		QQueue<ScreenPacket*> queue;
 	private:
 		quint16 _rows;
 		quint16 _cols;
