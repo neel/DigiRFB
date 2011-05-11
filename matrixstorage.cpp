@@ -17,6 +17,7 @@ MatrixStorage::MatrixStorage(const DG::Resolution* resolution, quint16 rows, qui
 			qDebug() << "Rect Created :" << j*rectWidth << i*rectHeight << rectWidth << rectHeight;
 			Rect* rect = new Rect(j*rectWidth, i*rectHeight, rectWidth, rectHeight);
 			MatrixStorageItem* item = new MatrixStorageItem(this, rect);
+			item->setIndex(i, j);
 			items[index(i, j)] = item;
 		}
 	}

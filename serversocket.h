@@ -7,6 +7,7 @@ class QGraphicsScene;
 
 namespace DG{
 	class Resolution;
+	class SceneMatrix;
 }
 
 namespace DG{
@@ -14,6 +15,7 @@ class ServerSocket : public CommonSocket{
 	Q_OBJECT
 	private:
 		QGraphicsScene* _scene;
+		SceneMatrix* _matrix;
 	public:
 		ServerSocket(QGraphicsScene* scene, QObject* parent=0);
 		virtual ~ServerSocket();

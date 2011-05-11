@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 	DG::Util::_init();
 /*
 	DG::ClientSocket* socket = new DG::ClientSocket;
-	socket->connectToHost("192.168.0.3", 5590);
+	socket->connectToHost("192.168.0.4", 5590);
 */
 
 /*

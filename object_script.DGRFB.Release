@@ -16,6 +16,7 @@ INPUT(
 ./release\server.o
 ./release\requestcontroller.o
 ./release\screenviewerwidget.o
+./release\scenematrix.o
 ./release\moc_commonsocket.o
 ./release\moc_clientsocket.o
 ./release\moc_serversocket.o

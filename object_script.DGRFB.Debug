@@ -16,6 +16,7 @@ INPUT(
 ./debug\server.o
 ./debug\requestcontroller.o
 ./debug\screenviewerwidget.o
+./debug\scenematrix.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o

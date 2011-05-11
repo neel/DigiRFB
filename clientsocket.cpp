@@ -67,7 +67,7 @@ void ClientSocket::msgReceived(){
 					prepare(resolution);
 					//set Resolution
 					DG::MessagePacket* res = new DG::MessagePacket((int)Resolution);
-					res->setMessage("prepared");
+					res->setMessage("prepared "+QByteArray::number(divisionRows*rectRows)+"|"+QByteArray::number(divisionCols*rectCols));
 					send(res);
 					state = Prepared;
 				}

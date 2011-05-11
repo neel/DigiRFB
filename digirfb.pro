@@ -19,7 +19,8 @@ HEADERS += \
     updatethread.h \
     server.h \
     requestcontroller.h \
-    screenviewerwidget.h
+    screenviewerwidget.h \
+    scenematrix.h
 
 SOURCES += \
     resolution.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
     updatethread.cpp \
     server.cpp \
     requestcontroller.cpp \
-    screenviewerwidget.cpp
+    screenviewerwidget.cpp \
+    scenematrix.cpp
 
 LIBS += -lgdi32

@@ -33,9 +33,15 @@ bool MatrixStorageItem::update(){
 	return updated;
 }
 
+void MatrixStorageItem::setIndex(quint16 row, quint16 col){
+	_row = row;
+	_col = col;
+}
+
 ScreenPacket* MatrixStorageItem::packet(int state) const{
 	DG::ScreenPacket* screen = new DG::ScreenPacket(state);
 	screen->setRect(*rect);
 	screen->setImage(_cache);
+	screen->setIndex(_row, _col);
 	return screen;
 }

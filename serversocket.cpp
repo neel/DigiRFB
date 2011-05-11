@@ -8,11 +8,13 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
+#include "scenematrix.h"
 
 using namespace DG;
 
 ServerSocket::ServerSocket(QGraphicsScene* scene, QObject* parent):CommonSocket(parent), _scene(scene){
 	connect(this, SIGNAL(msgWaiting()), this, SLOT(msgReceived()));
+	_matrix = new SceneMatrix(_scene);
 }
 
 ServerSocket::~ServerSocket(){
@@ -65,6 +67,11 @@ void ServerSocket::msgReceived(){
 		case ResolutionAccepted:{
 				DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(p);
 				if(m->message().startsWith("prepared")){
+					QList<QByteArray> parts = m->message().trimmed().split(' ');
+					QList<QByteArray> _dimParts = parts[1].split('|');
+					quint16 rows = _dimParts[0].toInt();
+					quint16 cols = _dimParts[1].toInt();
+					_matrix->setGridDimension(rows, cols);
 					DG::MessagePacket* res = new DG::MessagePacket((int)ResolutionAccepted);
 					res->setMessage("start");
 					send(res);
@@ -77,7 +84,8 @@ void ServerSocket::msgReceived(){
 		case Working:{
 				DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
 				QGraphicsPixmapItem* item = s->graphicsPixmapItem();
-				_scene->addItem(item);
+				//_scene->addItem(item);
+				_matrix->addItem(s->row(), s->col(), item);
 				DG::MessagePacket* m = new DG::MessagePacket((int)Working);
 				m->setMessage("ACK");
 				send(m);
