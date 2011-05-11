@@ -23,14 +23,18 @@ void SceneMatrix::setGridDimension(quint16 rows, quint16 cols){
 }
 
 void SceneMatrix::addItem(quint16 row, quint16 col, QGraphicsItem* item){
+	if(row > _rows || col > _cols)
+		return;
 	quint16 _index = index(row, col);
 	_scene->addItem(item);
 	if(_list.count() > _index){
 		QGraphicsItem* _existing = _list.at(_index);
-		qDebug() << "SceneMatrix::addItem" << _existing << _existing->isObscured();
-		if(_existing->isObscured()){
-			_scene->removeItem(_existing);
-			delete _existing;
+		if(_existing){
+			qDebug() << "SceneMatrix::addItem" << _existing << _existing->isObscured();
+			//if(_existing->isObscured()){
+				_scene->removeItem(_existing);
+				delete _existing;
+			//}
 		}
 	}
 	qDebug() << "_list.count(): " << _list.count() << " index: " << _index << row << col;
