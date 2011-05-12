@@ -17,9 +17,6 @@ void SceneMatrix::setGridDimension(quint16 rows, quint16 cols){
 	_cols = cols;
 	_list.reserve(sizeof(QGraphicsItem*)*_rows*_cols);
 	qDebug() << "SceneMatrix::setGridDimension" << _rows << _cols;
-	for(int i=0;i<(_rows*_cols);++i){
-		_list << 0x0;
-	}
 }
 
 void SceneMatrix::addItem(quint16 row, quint16 col, QGraphicsItem* item){
@@ -28,7 +25,7 @@ void SceneMatrix::addItem(quint16 row, quint16 col, QGraphicsItem* item){
 	quint16 _index = index(row, col);
 	_scene->addItem(item);
 	if(_list.count() > _index){
-		QGraphicsItem* _existing = _list.at(_index);
+		QGraphicsItem* _existing = _list.value(_index);
 		if(_existing){
 			qDebug() << "SceneMatrix::addItem" << _existing << _existing->isObscured();
 			//if(_existing->isObscured()){

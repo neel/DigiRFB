@@ -1,7 +1,7 @@
 #ifndef SCENEMATRIX_H
 #define SCENEMATRIX_H
 
-#include <QList>
+#include <QHash>
 
 class QGraphicsScene;
 class QGraphicsItem;
@@ -13,7 +13,7 @@ class SceneMatrix{
 		quint16 _rows;
 		quint16 _cols;
 	private:
-		QList<QGraphicsItem*> _list;
+		QHash<int, QGraphicsItem*> _list;
 	public:
 		SceneMatrix(QGraphicsScene* scene);
 	private:
