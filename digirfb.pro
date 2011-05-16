@@ -20,7 +20,11 @@ HEADERS += \
     server.h \
     requestcontroller.h \
     screenviewerwidget.h \
-    scenematrix.h
+    scenematrix.h \
+    eventpacket.h \
+    mouseeventpacket.h \
+    mousemoveeventpacket.h \
+    mouseclickeventpacket.h
 
 SOURCES += \
     resolution.cpp \
@@ -40,6 +44,10 @@ SOURCES += \
     server.cpp \
     requestcontroller.cpp \
     screenviewerwidget.cpp \
-    scenematrix.cpp
+    scenematrix.cpp \
+    eventpacket.cpp \
+    mouseeventpacket.cpp \
+    mousemoveeventpacket.cpp \
+    mouseclickeventpacket.cpp
 
 LIBS += -lgdi32

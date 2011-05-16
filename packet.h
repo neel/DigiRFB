@@ -9,7 +9,8 @@ class Packet{
 	public:
 		enum PacketType{
 			MessagePacket = 0x02,
-			ScreenPacket = 0x04
+			ScreenPacket = 0x04,
+			EventPacket = 0x08
 		};
 	public:
 		struct CommonHeader{
@@ -33,7 +34,7 @@ class Packet{
 		PacketType _type;
 	public:
 		Packet();
-		Packet(PacketType type, int state);
+		Packet(PacketType type, int state=0);
 		virtual QDataStream& serialize(QDataStream& stream) const = 0;
 		virtual QDataStream& unserialize(QDataStream& stream) = 0;
 	public:

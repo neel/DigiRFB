@@ -17,6 +17,10 @@ INPUT(
 ./debug\requestcontroller.o
 ./debug\screenviewerwidget.o
 ./debug\scenematrix.o
+./debug\eventpacket.o
+./debug\mouseeventpacket.o
+./debug\mousemoveeventpacket.o
+./debug\mouseclickeventpacket.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o

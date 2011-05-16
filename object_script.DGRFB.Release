@@ -17,6 +17,10 @@ INPUT(
 ./release\requestcontroller.o
 ./release\screenviewerwidget.o
 ./release\scenematrix.o
+./release\eventpacket.o
+./release\mouseeventpacket.o
+./release\mousemoveeventpacket.o
+./release\mouseclickeventpacket.o
 ./release\moc_commonsocket.o
 ./release\moc_clientsocket.o
 ./release\moc_serversocket.o
