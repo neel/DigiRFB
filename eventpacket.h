@@ -20,6 +20,10 @@ class EventPacket : public Packet{
 		virtual QDataStream& unserialize(QDataStream& stream);
 	public:
 		virtual void reflect() const = 0;
+	public:
+		virtual quint64 size() const;
+	public:
+		EventType eventType() const;
 };
 }
 

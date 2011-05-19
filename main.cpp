@@ -15,6 +15,7 @@
 #include "clientsocket.h"
 
 #include "screenviewerwidget.h"
+#include "canvas.h"
 
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
@@ -41,7 +42,7 @@ int main(int argc, char *argv[]){
 	view.show();
 */
 
-	QGraphicsScene scene;
+	DG::Canvas scene;
 	QGraphicsView view(&scene);
 	DG::Server* server = new DG::Server(&scene);
 	server->listen(5590);

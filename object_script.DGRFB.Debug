@@ -19,8 +19,7 @@ INPUT(
 ./debug\scenematrix.o
 ./debug\eventpacket.o
 ./debug\mouseeventpacket.o
-./debug\mousemoveeventpacket.o
-./debug\mouseclickeventpacket.o
+./debug\canvas.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o
@@ -28,4 +27,5 @@ INPUT(
 ./debug\moc_server.o
 ./debug\moc_requestcontroller.o
 ./debug\moc_screenviewerwidget.o
+./debug\moc_canvas.o
 );

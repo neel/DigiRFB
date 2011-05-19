@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <QMutex>
 #include <QImage>
+#include <QMouseEvent>
 
 class QDesktopWidget;
 
@@ -22,6 +23,7 @@ namespace DG{
 class Util{
 	private:
 		static WId winId;
+		static QDesktopWidget* _desktopWidget;
 	public:
 		static void _init();
 	private:
@@ -33,6 +35,8 @@ class Util{
 		static bool setResolution(Resolution* res);
 		static QPixmap grabScreen(const DG::Rect* rect);
 		static bool compare(const QImage& l, const QImage& r);
+	public:
+		static void fireEvent(QMouseEvent* ev);
 };
 }
 #endif // UTIL_H

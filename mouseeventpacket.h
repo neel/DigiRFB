@@ -3,29 +3,29 @@
 
 #include "eventpacket.h"
 #include <QDataStream>
+#include <QGraphicsSceneMouseEvent>
+#include <QPoint>
 
 namespace DG{
 class MouseEventPacket : public DG::EventPacket{
 	private:
-		quint16 _x;
-		quint16 _y;
+		QEvent::Type _type;
+		QPoint _point;
+		Qt::MouseButton _button;
+		Qt::MouseButtons _buttons;
+		Qt::KeyboardModifiers _modifires;
 	public:
-		enum MouseEventType{
-			MouseMove = 0x02,
-			MouseClick = 0x04
-		};
-	private:
-		MouseEventType _mouseEventType;
+		MouseEventPacket();
+		MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseEvent* ev);
+		QEvent::Type mouseEventType() const;
 	public:
-		MouseEventPacket(MouseEventType mouseEventType);
-		MouseEventPacket(MouseEventType mouseEventType, quint16 x, quint16 y);
-		MouseEventType mouseEventType() const;
-	public:
-		quint16 x() const;
-		quint16 y() const;
+		const QPoint& point() const;
 	public:
 		virtual QDataStream& serialize(QDataStream& stream) const;
 		virtual QDataStream& unserialize(QDataStream& stream);
+	public:
+		void reflect() const;
+		virtual quint64 size() const;
 };
 }
 #endif // MOUSEEVENTPACKET_H

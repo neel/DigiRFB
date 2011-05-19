@@ -77,6 +77,7 @@ QPixmap Util::grabScreen(const DG::Rect* rect){
 
 void Util::_init(){
 	QDesktopWidget* desktopWidget = new QDesktopWidget;
+	DG::Util::_desktopWidget = desktopWidget;
 	Util::winId = desktopWidget->screen(desktopWidget->primaryScreen())->winId();
 }
 
@@ -84,6 +85,11 @@ bool Util::compare(const QImage& l, const QImage& r){
 	return l == r;
 }
 
+void Util::fireEvent(QMouseEvent* ev){
+	QApplication::postEvent(DG::Util::_desktopWidget, ev);
+}
+
 WId DG::Util::winId;
 QMutex DG::Util::mutex;
+QDesktopWidget* DG::Util::_desktopWidget;
 

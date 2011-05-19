@@ -1,37 +1,53 @@
 #include "mouseeventpacket.h"
+#include "util.h"
 
 using namespace DG;
 
-MouseEventPacket::MouseEventPacket(MouseEventType mouseEventType):EventPacket(EventPacket::MouseEvent), _mouseEventType(mouseEventType){
+MouseEventPacket::MouseEventPacket():EventPacket(EventPacket::MouseEvent){
 
 }
 
-MouseEventPacket::MouseEventPacket(MouseEventType mouseEventType, quint16 x, quint16 y):EventPacket(EventPacket::MouseEvent), _mouseEventType(mouseEventType), _x(x), _y(y){
-
+MouseEventPacket::MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseEvent* ev):EventPacket(EventPacket::MouseEvent){
+	_type = type;
+	_point = ev->scenePos().toPoint();
+	_button = ev->button();
+	_buttons = ev->buttons();
+	_modifires = ev->modifiers();
 }
 
-MouseEventPacket::MouseEventType MouseEventPacket::mouseEventType() const{
-	return _mouseEventType;
+QEvent::Type MouseEventPacket::mouseEventType() const{
+	return _type;
 }
 
-quint16 MouseEventPacket::x() const{
-	return _x;
-}
-
-quint16 MouseEventPacket::y() const{
-	return _y;
+const QPoint& MouseEventPacket::point() const{
+	return _point;
 }
 
 QDataStream& MouseEventPacket::serialize(QDataStream& stream) const{
 	EventPacket::serialize(stream);
-	stream << _mouseEventType << _x << _y;
+	stream << _type << _point << _button << _buttons << _modifires;
 	return stream;
 }
 
 QDataStream& MouseEventPacket::unserialize(QDataStream& stream){
 	EventPacket::serialize(stream);
-	int mouseEventType;
-	stream >> mouseEventType >> _x >> _y;
-	_mouseEventType = (MouseEventType)mouseEventType;
+	int type;
+	int button;
+	int buttons;
+	int modifires;
+	stream >> type >> _point >> button >> buttons >> modifires;
+	_type = (QEvent::Type)type;
+	_button = (Qt::MouseButton)button;
+	_buttons = (Qt::MouseButtons)buttons;
+	_modifires = (Qt::KeyboardModifiers)modifires;
 	return stream;
+}
+
+void MouseEventPacket::reflect() const{
+	QMouseEvent* event = new QMouseEvent(_type, _point, _point, _button, _buttons, _modifires);
+	DG::Util::fireEvent(event);
+}
+
+quint64 MouseEventPacket::size() const{
+	return EventPacket::size()+sizeof(int)*4+sizeof(qint32)*2;
 }

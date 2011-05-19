@@ -1,6 +1,7 @@
 #include "server.h"
 #include "serversocket.h"
 #include <QGraphicsScene>
+#include "canvas.h"
 
 using namespace DG;
 
@@ -11,6 +12,7 @@ Server::Server(QGraphicsScene* scene, QObject *parent):QTcpServer(parent), _scen
 
 void Server::incomingConnection(int socketDescriptor){
 	ServerSocket* socket = new ServerSocket(_scene);
+	dynamic_cast<DG::Canvas*>(_scene)->setSocket(socket);
 	qDebug() << "Server::incomingConnection";
 	if(socket->setSocketDescriptor(socketDescriptor)){
 		QTcpServer::addPendingConnection(socket);

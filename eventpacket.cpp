@@ -20,3 +20,12 @@ QDataStream& EventPacket::unserialize(QDataStream& stream){
 	_eventType = (EventType)eType;
 	return stream;
 }
+
+quint64 EventPacket::size() const{
+	return sizeof(int);
+}
+
+EventType EventPacket::eventType() const{
+	return _eventType;
+}
+

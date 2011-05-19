@@ -19,8 +19,7 @@ INPUT(
 ./release\scenematrix.o
 ./release\eventpacket.o
 ./release\mouseeventpacket.o
-./release\mousemoveeventpacket.o
-./release\mouseclickeventpacket.o
+./release\canvas.o
 ./release\moc_commonsocket.o
 ./release\moc_clientsocket.o
 ./release\moc_serversocket.o
@@ -28,4 +27,5 @@ INPUT(
 ./release\moc_server.o
 ./release\moc_requestcontroller.o
 ./release\moc_screenviewerwidget.o
+./release\moc_canvas.o
 );

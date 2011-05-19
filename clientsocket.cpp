@@ -12,6 +12,8 @@
 #include <QDebug>
 #include "requestcontroller.h"
 #include <QThreadPool>
+#include "eventpacket.h"
+#include "mouseeventpacket.h"
 
 using namespace DG;
 
@@ -25,7 +27,8 @@ ClientSocket::~ClientSocket(){
 }
 
 void ClientSocket::msgReceived(){
-	DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(rcv());
+	DG::Packet* p = rcv();
+	DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(p);
 	switch(currentState()){
 		case Connected:{
 				if(m->message().startsWith("hi")){
@@ -81,10 +84,17 @@ void ClientSocket::msgReceived(){
 				state = Working;
 			}break;
 		case Working:{
-				if(m->message().startsWith("ACK")){
-					//Send Next ScreenPacket in the Queue
-					//send(storage->next((int)Working));
-					controller->request();
+				if(p->type() == Packet::EventPacket){
+					if(p->eventType() == EventPacket::MouseEvent){
+						MouseEventPacket* mouseEvent = dynamic_cast<MouseEventPacket*>(p);
+						mouseEvent->reflect();
+					}
+				}else{
+					if(m->message().startsWith("ACK")){
+						//Send Next ScreenPacket in the Queue
+						//send(storage->next((int)Working));
+						controller->request();
+					}
 				}
 			}break;
 	}
