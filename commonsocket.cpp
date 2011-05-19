@@ -57,7 +57,7 @@ quint64 CommonSocket::send(DG::Packet* packet){
 	if(packet->type() == Packet::MessagePacket){
 		DG::MessagePacket* m = dynamic_cast<DG::MessagePacket*>(packet);
 		qDebug() << ">>" << m->message();
-	}else{
+	}else if(packet->type() == Packet::ScreenPacket){
 		DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(packet);
 		qDebug() << ">> screen [" << s->rect().left << s->rect().top << "]";
 	}
