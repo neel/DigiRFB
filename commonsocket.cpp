@@ -89,7 +89,6 @@ void CommonSocket::readAvailableSlot(){
 			}else if(lastHeader->packetType == Packet::MouseEventPacket){
 				packet = new MouseEventPacket;
 			}
-			Q_ASSERT(packet != 0x0);
 			sockStream >> *packet;
 			payloadSize = 0;
 			packetQueue.append(packet);

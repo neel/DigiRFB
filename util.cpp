@@ -5,6 +5,7 @@
 #include <QtAlgorithms>
 #include <QDesktopWidget>
 #include <QDebug>
+#include <winuser.h>
 
 using namespace DG;
 
@@ -77,7 +78,7 @@ QPixmap Util::grabScreen(const DG::Rect* rect){
 
 void Util::_init(){
 	QDesktopWidget* desktopWidget = new QDesktopWidget;
-	DG::Util::_desktopWidget = desktopWidget;
+	DG::Util::_desktopWidget = desktopWidget->screen(desktopWidget->primaryScreen());
 	Util::winId = desktopWidget->screen(desktopWidget->primaryScreen())->winId();
 }
 
@@ -86,10 +87,59 @@ bool Util::compare(const QImage& l, const QImage& r){
 }
 
 void Util::fireEvent(QMouseEvent* ev){
+/*
+	DWORD dwFlags;
+	DWORD dx;
+	DWORD dy;
+	DWORD dwData;
+	ULONG_PTR dwExtraInfo;
+	qDebug() << "Util::fireEvent (" << ev->x() << ev->y() << ") " << dx << dy;
+
+	if(ev->type() == QEvent::MouseButtonPress){
+		if(ev->button() == Qt::LeftButton){
+			dwFlags  = MOUSEEVENTF_LEFTDOWN|MOUSEEVENTF_ABSOLUTE;
+		}else if(ev->button() == Qt::RightButton){
+			dwFlags  = MOUSEEVENTF_RIGHTDOWN|MOUSEEVENTF_ABSOLUTE;
+		}
+	}else if(ev->type() == QEvent::MouseButtonRelease){
+		if(ev->button() == Qt::LeftButton){
+			dwFlags  = MOUSEEVENTF_LEFTUP|MOUSEEVENTF_ABSOLUTE;
+		}else if(ev->button() == Qt::RightButton){
+			dwFlags  = MOUSEEVENTF_RIGHTUP|MOUSEEVENTF_ABSOLUTE;
+		}
+	}else if(ev->type() == QEvent::MouseMove){
+		dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
+		dx = ev->x();
+		dy = ev->y();
+	}
+	mouse_event(dwFlags, dx, dy, dwData, dwExtraInfo);
+*/
+/*
+	INPUT input = {0};
+	input.type = INPUT_MOUSE;
+	if(ev->type() == QEvent::MouseButtonPress){
+		if(ev->button() == Qt::LeftButton){
+			input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
+		}else if(ev->button() == Qt::RightButton){
+			input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
+		}
+	}else if(ev->type() == QEvent::MouseButtonRelease){
+		if(ev->button() == Qt::LeftButton){
+			input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
+		}else if(ev->button() == Qt::RightButton){
+			input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
+		}
+	}else if(ev->type() == QEvent::MouseMove){
+		input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
+		input.mi.dx = ev->globalX();
+		input.mi.dy = ev->globalY();
+	}
+	::SendInput(1,&input,sizeof(INPUT));
+*/
 	QApplication::postEvent(DG::Util::_desktopWidget, ev);
 }
 
 WId DG::Util::winId;
 QMutex DG::Util::mutex;
-QDesktopWidget* DG::Util::_desktopWidget;
+QWidget* DG::Util::_desktopWidget;
 

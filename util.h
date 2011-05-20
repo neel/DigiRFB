@@ -3,13 +3,13 @@
 
 #include <QList>
 #include <QByteArray>
-#include "windows.h"
+#include <windows.h>
 #include <QPixmap>
 #include <QMutex>
 #include <QImage>
 #include <QMouseEvent>
 
-class QDesktopWidget;
+class QWidget;
 
 namespace DG{
 	class Rect;
@@ -23,7 +23,7 @@ namespace DG{
 class Util{
 	private:
 		static WId winId;
-		static QDesktopWidget* _desktopWidget;
+		static QWidget* _desktopWidget;
 	public:
 		static void _init();
 	private:
