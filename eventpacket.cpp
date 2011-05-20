@@ -22,7 +22,7 @@ QDataStream& EventPacket::unserialize(QDataStream& stream){
 }
 
 quint64 EventPacket::size() const{
-	return sizeof(int);
+	return sizeof(*this);
 }
 
 DG::EventPacket::EventType EventPacket::eventType() const{

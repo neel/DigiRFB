@@ -20,10 +20,10 @@
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
 	DG::Util::_init();
-/*
+
 	DG::ClientSocket* socket = new DG::ClientSocket;
-	socket->connectToHost("192.168.0.4", 5590);
-*/
+	socket->connectToHost("192.168.0.3", 5590);
+
 
 /*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
@@ -41,13 +41,13 @@ int main(int argc, char *argv[]){
 	scene.addEllipse(20, 20, 600, 300);
 	view.show();
 */
-
+/*
 	DG::Canvas scene;
 	QGraphicsView view(&scene);
 	DG::Server* server = new DG::Server(&scene);
 	server->listen(5590);
 	view.show();
-
+*/
 /*
 	DG::ScreenViewerWidget* widget = new DG::ScreenViewerWidget;
 	QScrollArea* scroller = new QScrollArea;

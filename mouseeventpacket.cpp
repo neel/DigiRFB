@@ -30,7 +30,7 @@ QDataStream& MouseEventPacket::serialize(QDataStream& stream) const{
 }
 
 QDataStream& MouseEventPacket::unserialize(QDataStream& stream){
-	EventPacket::serialize(stream);
+	EventPacket::unserialize(stream);
 	int type;
 	int button;
 	int buttons;
