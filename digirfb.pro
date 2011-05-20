@@ -1,3 +1,5 @@
+DEFINES += QT_FATAL_ASSERT
+
 QT += core gui network
 
 TARGET = DGRFB

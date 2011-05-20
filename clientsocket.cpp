@@ -86,8 +86,10 @@ void ClientSocket::msgReceived(){
 		case Working:{
 				if(p->type() == Packet::EventPacket){
 					EventPacket* event = dynamic_cast<EventPacket*>(p);
+					Q_ASSERT(event != 0x0);
 					if(event->eventType() == EventPacket::MouseEvent){
 						MouseEventPacket* mouseEvent = dynamic_cast<MouseEventPacket*>(p);
+						Q_ASSERT(mouseEvent != 0x0);
 						mouseEvent->reflect();
 					}
 				}else{

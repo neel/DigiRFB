@@ -1,6 +1,11 @@
 #include "eventpacket.h"
 
 using namespace DG;
+
+EventPacket::EventPacket():Packet(Packet::EventPacket){
+
+}
+
 EventPacket::EventPacket(EventType type, int state):Packet(Packet::EventPacket, state), _eventType(type){
 
 }
@@ -27,5 +32,9 @@ quint64 EventPacket::size() const{
 
 DG::EventPacket::EventType EventPacket::eventType() const{
 	return _eventType;
+}
+
+void EventPacket::reflect() const{
+
 }
 
