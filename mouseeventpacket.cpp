@@ -1,13 +1,14 @@
 #include "mouseeventpacket.h"
 #include "util.h"
+#include "packet.h"
 
 using namespace DG;
 
-MouseEventPacket::MouseEventPacket():EventPacket(EventPacket::MouseEvent){
+MouseEventPacket::MouseEventPacket():EventPacket(Packet::MouseEventPacket){
 
 }
 
-MouseEventPacket::MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseEvent* ev):EventPacket(EventPacket::MouseEvent){
+MouseEventPacket::MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseEvent* ev):EventPacket(Packet::MouseEventPacket){
 	_type = type;
 	_point = ev->scenePos().toPoint();
 	_button = ev->button();
@@ -24,13 +25,11 @@ const QPoint& MouseEventPacket::point() const{
 }
 
 QDataStream& MouseEventPacket::serialize(QDataStream& stream) const{
-	EventPacket::serialize(stream);
 	stream << _type << _point << _button << _buttons << _modifires;
 	return stream;
 }
 
 QDataStream& MouseEventPacket::unserialize(QDataStream& stream){
-	EventPacket::unserialize(stream);
 	int type;
 	int button;
 	int buttons;
@@ -49,5 +48,5 @@ void MouseEventPacket::reflect() const{
 }
 
 quint64 MouseEventPacket::size() const{
-	return EventPacket::size()+sizeof(int)*4+sizeof(qint32)*2;
+	return sizeof(int)*4+sizeof(qint32)*2;
 }

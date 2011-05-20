@@ -10,7 +10,8 @@ class Packet{
 		enum PacketType{
 			MessagePacket = 0x02,
 			ScreenPacket = 0x04,
-			EventPacket = 0x08
+			MouseEventPacket = 0x08,
+			KeyboardEventPacket = 0x08
 		};
 	public:
 		struct CommonHeader{

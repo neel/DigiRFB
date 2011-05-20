@@ -84,15 +84,11 @@ void ClientSocket::msgReceived(){
 				state = Working;
 			}break;
 		case Working:{
-				if(p->type() == Packet::EventPacket){
-					EventPacket* event = dynamic_cast<EventPacket*>(p);
-					Q_ASSERT(event != 0x0);
-					if(event->eventType() == EventPacket::MouseEvent){
+				if(p->type() == Packet::MouseEventPacket){
 						MouseEventPacket* mouseEvent = dynamic_cast<MouseEventPacket*>(p);
 						Q_ASSERT(mouseEvent != 0x0);
 						mouseEvent->reflect();
-					}
-				}else{
+				}else if(p->type() == Packet::MessagePacket){
 					if(m->message().startsWith("ACK")){
 						//Send Next ScreenPacket in the Queue
 						//send(storage->next((int)Working));

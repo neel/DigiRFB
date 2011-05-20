@@ -81,14 +81,15 @@ void CommonSocket::readAvailableSlot(){
 			lastHeader = header;
 			qDebug() << "Header: " << header->id << header->size;
 		}else{
-			DG::Packet* packet;
+			DG::Packet* packet = 0x0;
 			if(lastHeader->packetType == Packet::MessagePacket){
 				packet =  new MessagePacket;
 			}else if(lastHeader->packetType == Packet::ScreenPacket){
 				packet = new ScreenPacket;
-			}else if(lastHeader->packetType == Packet::EventPacket){
-				packet = new EventPacket;
+			}else if(lastHeader->packetType == Packet::MouseEventPacket){
+				packet = new MouseEventPacket;
 			}
+			Q_ASSERT(packet != 0x0);
 			sockStream >> *packet;
 			payloadSize = 0;
 			packetQueue.append(packet);
