@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#define _WIN32_WINNT 0x0404
+
 #include <QList>
 #include <QByteArray>
 #include <windows.h>

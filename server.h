@@ -2,6 +2,7 @@
 #define SERVER_H
 
 #include <QTcpServer>
+#include <QThread>
 
 class QGraphicsScene;
 
@@ -9,6 +10,7 @@ namespace DG{
 class Server : public QTcpServer{
 	Q_OBJECT
 	private:
+		QThread thread;
 		QGraphicsScene* _scene;
 	public:
 		explicit Server(QGraphicsScene* scene, QObject *parent = 0);

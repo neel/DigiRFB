@@ -13,7 +13,7 @@
 #include "requestcontroller.h"
 #include <QThreadPool>
 #include "eventpacket.h"
-#include "mouseeventpacket.h"
+#include "mouseeventspacket.h"
 
 using namespace DG;
 
@@ -85,9 +85,9 @@ void ClientSocket::msgReceived(){
 			}break;
 		case Working:{
 				if(p->type() == Packet::MouseEventPacket){
-						MouseEventPacket* mouseEvent = dynamic_cast<MouseEventPacket*>(p);
-						Q_ASSERT(mouseEvent != 0x0);
-						mouseEvent->reflect();
+						MouseEventsPacket* mouseEvents = dynamic_cast<MouseEventsPacket*>(p);
+						Q_ASSERT(mouseEvents != 0x0);
+						mouseEvents->reflect();
 				}else if(p->type() == Packet::MessagePacket){
 					if(m->message().startsWith("ACK")){
 						//Send Next ScreenPacket in the Queue

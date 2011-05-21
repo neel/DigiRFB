@@ -25,7 +25,9 @@ HEADERS += \
     scenematrix.h \
     eventpacket.h \
     mouseeventpacket.h \
-    canvas.h
+    canvas.h \
+    eventdespatcer.h \
+    mouseeventspacket.h
 
 SOURCES += \
     resolution.cpp \
@@ -48,6 +50,8 @@ SOURCES += \
     scenematrix.cpp \
     eventpacket.cpp \
     mouseeventpacket.cpp \
-    canvas.cpp
+    canvas.cpp \
+    eventdespatcer.cpp \
+    mouseeventspacket.cpp
 
 LIBS += -lgdi32

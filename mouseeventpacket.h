@@ -21,11 +21,11 @@ class MouseEventPacket : public DG::EventPacket{
 	public:
 		const QPoint& point() const;
 	public:
-		virtual QDataStream& serialize(QDataStream& stream) const;
-		virtual QDataStream& unserialize(QDataStream& stream);
+		friend QDataStream& operator<<(QDataStream&, const MouseEventPacket& packet);
+		friend QDataStream& operator>>(QDataStream&, MouseEventPacket& packet);
 	public:
 		void reflect() const;
-		virtual quint64 size() const;
+		static quint64 size();
 };
 }
 #endif // MOUSEEVENTPACKET_H

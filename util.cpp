@@ -114,7 +114,7 @@ void Util::fireEvent(QMouseEvent* ev){
 	}
 	mouse_event(dwFlags, dx, dy, dwData, dwExtraInfo);
 */
-/*
+
 	INPUT input = {0};
 	input.type = INPUT_MOUSE;
 	if(ev->type() == QEvent::MouseButtonPress){
@@ -131,12 +131,19 @@ void Util::fireEvent(QMouseEvent* ev){
 		}
 	}else if(ev->type() == QEvent::MouseMove){
 		input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
-		input.mi.dx = ev->globalX();
-		input.mi.dy = ev->globalY();
+		input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
+		double fScreenWidth	= GetSystemMetrics( SM_CXSCREEN )-1;
+		double fScreenHeight	= GetSystemMetrics( SM_CYSCREEN )-1;
+		double fx		         = ev->globalX() * (65535.0f/fScreenWidth);
+		double fy		         = ev->globalY() * (65535.0f/fScreenHeight);
+		input.mi.dx = fx;
+		input.mi.dy = fy;
 	}
 	::SendInput(1,&input,sizeof(INPUT));
-*/
+
+/*
 	QApplication::postEvent(DG::Util::_desktopWidget, ev);
+*/
 }
 
 WId DG::Util::winId;

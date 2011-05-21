@@ -5,6 +5,7 @@
 
 namespace DG{
 	class ServerSocket;
+	class EventDespatcher;
 }
 class QGraphicsSceneMouseEvent;
 
@@ -13,8 +14,10 @@ class Canvas : public QGraphicsScene{
 	Q_OBJECT
 	private:
 		ServerSocket* _socket;
+		EventDespatcher* _despatcher;
 	public:
 		explicit Canvas(QObject* parent = 0);
+		void setDespatcher(EventDespatcher* despatcher);
 	public:
 		virtual void	mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 		virtual void	mouseMoveEvent(QGraphicsSceneMouseEvent* event);

@@ -16,6 +16,8 @@
 
 #include "screenviewerwidget.h"
 #include "canvas.h"
+#include <QThread>
+#include "eventdespatcer.h"
 
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);

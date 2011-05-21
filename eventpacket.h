@@ -4,9 +4,7 @@
 #include "packet.h"
 
 namespace DG{
-class EventPacket : public Packet{
-	public:
-		EventPacket(Packet::PacketType type);
+class EventPacket{
 	public:
 		virtual void reflect() const = 0;
 };

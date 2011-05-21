@@ -20,6 +20,8 @@ INPUT(
 ./debug\eventpacket.o
 ./debug\mouseeventpacket.o
 ./debug\canvas.o
+./debug\eventdespatcer.o
+./debug\mouseeventspacket.o
 ./debug\moc_commonsocket.o
 ./debug\moc_clientsocket.o
 ./debug\moc_serversocket.o
@@ -28,4 +30,5 @@ INPUT(
 ./debug\moc_requestcontroller.o
 ./debug\moc_screenviewerwidget.o
 ./debug\moc_canvas.o
+./debug\moc_eventdespatcer.o
 );
