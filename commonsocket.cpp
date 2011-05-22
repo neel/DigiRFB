@@ -61,6 +61,9 @@ quint64 CommonSocket::send(DG::Packet* packet){
 	}else if(packet->type() == Packet::ScreenPacket){
 		DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(packet);
 		qDebug() << ">> screen [" << s->rect().left << s->rect().top << "]";
+	}else if(packet->type() == Packet::MouseEventPacket){
+		DG::MouseEventsPacket* ms = dynamic_cast<DG::MouseEventsPacket*>(packet);
+		qDebug() << ">> Mouse Events " << ms->count();
 	}
 	return packet->size();
 }

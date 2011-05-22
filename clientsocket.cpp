@@ -88,6 +88,9 @@ void ClientSocket::msgReceived(){
 						MouseEventsPacket* mouseEvents = dynamic_cast<MouseEventsPacket*>(p);
 						Q_ASSERT(mouseEvents != 0x0);
 						mouseEvents->reflect();
+						DG::MessagePacket* res = new DG::MessagePacket((int)Working);
+						res->setMessage("ACK M");
+						send(res);
 				}else if(p->type() == Packet::MessagePacket){
 					if(m->message().startsWith("ACK")){
 						//Send Next ScreenPacket in the Queue

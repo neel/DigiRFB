@@ -18,6 +18,8 @@ void UpdateThread::run(){
 	//qDebug() << this << "UpdateThread::run()";
 	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
 		_area->update();
+	else
+		qDebug() << "_area->storage()->queueSize() Overflow Production Paused" << _area->storage()->queueSize() << RequestController::maxQueueSize;
 	qDebug() << "Starting " << _next;
 	QThreadPool::globalInstance()->start(this);
 }

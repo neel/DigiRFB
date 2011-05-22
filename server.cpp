@@ -13,10 +13,12 @@ Server::Server(QGraphicsScene* scene, QObject *parent):QTcpServer(parent), _scen
 
 void Server::incomingConnection(int socketDescriptor){
 	ServerSocket* socket = new ServerSocket(_scene);
+
 	DG::EventDespatcher* despatcher = new DG::EventDespatcher(socket);
-	despatcher->moveToThread(&thread);
+	//despatcher->moveToThread(&thread);
 	dynamic_cast<DG::Canvas*>(_scene)->setDespatcher(despatcher);
-	thread.start();
+	//thread.start();
+
 	dynamic_cast<DG::Canvas*>(_scene)->setSocket(socket);
 	qDebug() << "Server::incomingConnection";
 	if(socket->setSocketDescriptor(socketDescriptor)){

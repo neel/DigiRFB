@@ -11,7 +11,7 @@ class Packet{
 			MessagePacket = 0x02,
 			ScreenPacket = 0x04,
 			MouseEventPacket = 0x08,
-			KeyboardEventPacket = 0x08
+			KeyboardEventPacket = 0x0A
 		};
 	public:
 		struct CommonHeader{

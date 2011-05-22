@@ -22,6 +22,7 @@ class MouseEventsPacket : public Packet{
 	public:
 		void reflect();
 		virtual quint64 size() const;
+		quint32 count() const;
 };
 }
 #endif // MOUSEEVENTSPACKET_H

@@ -51,3 +51,7 @@ MouseEventsPacket::~MouseEventsPacket(){
 quint64 MouseEventsPacket::size() const{
 	return sizeof(quint32)*(_packets.size()*MouseEventPacket::size());
 }
+
+quint32 MouseEventsPacket::count() const{
+	return _packets.size();
+}
