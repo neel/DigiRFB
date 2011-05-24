@@ -16,7 +16,7 @@ class Packet{
 	public:
 		struct CommonHeader{
 			private:
-				static quint32 _id;
+				static quint64 _id;
 			public:
 				quint32 id;
 				QTime time;

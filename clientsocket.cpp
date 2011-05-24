@@ -86,13 +86,16 @@ void ClientSocket::msgReceived(){
 		case Working:{
 				if(p->type() == Packet::MouseEventPacket){
 						MouseEventsPacket* mouseEvents = dynamic_cast<MouseEventsPacket*>(p);
+						qDebug() << ":: Rcvd MouseEvent";
 						Q_ASSERT(mouseEvents != 0x0);
 						mouseEvents->reflect();
 						DG::MessagePacket* res = new DG::MessagePacket((int)Working);
 						res->setMessage("ACK M");
 						send(res);
 				}else if(p->type() == Packet::MessagePacket){
+					qDebug() << ":: Rcvd Message " << m->message();
 					if(m->message().startsWith("ACK")){
+						controller->acknowledged();
 						//Send Next ScreenPacket in the Queue
 						//send(storage->next((int)Working));
 						controller->request();

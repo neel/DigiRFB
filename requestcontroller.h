@@ -14,6 +14,9 @@ namespace DG{
 namespace DG{
 class RequestController: public QObject{
 	Q_OBJECT
+	private:
+		quint32 packetC;
+		quint32 ackC;
 	public:
 		static const quint8 maxQueueSize;
 		static const quint8 minQueueSize;
@@ -40,6 +43,9 @@ class RequestController: public QObject{
 	public:
 		void addThread(DG::UpdateThread* thread);
 		void allThreadsAdded();
+		void acknowledged();
+	private:
+		void packetSent();
 };
 }
 #endif // REQUESTCONTROLLER_H

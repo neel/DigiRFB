@@ -18,10 +18,22 @@
 #include "canvas.h"
 #include <QThread>
 #include "eventdespatcer.h"
+#include <QLabel>
+#include <QLayout>
 
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
 	DG::Util::_init();
+/*
+	QWidget* widget = new QWidget;
+	QLabel* packetsSent = new QLabel;
+	packetsSent->setText("0");
+	widget->layout()->addWidget(packetsSent);
+	QLabel* ack = new QLabel;
+	ack->setText("0");
+	widget->layout()->addWidget(ack);
+	widget->show();
+*/
 /*
 	DG::ClientSocket* socket = new DG::ClientSocket;
 	socket->connectToHost("192.168.0.3", 5590);

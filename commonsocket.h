@@ -6,10 +6,13 @@
 #include <QByteArray>
 #include <QQueue>
 #include "packet.h"
+#include <QMutex>
 
 namespace DG{
 class CommonSocket : public QTcpSocket{
 	Q_OBJECT
+	private:
+		QMutex mutex;
 	private:
 		enum ReadState{
 			Header,
