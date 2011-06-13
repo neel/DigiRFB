@@ -41,11 +41,13 @@ void Canvas::mouseReleaseEvent(QGraphicsSceneMouseEvent* event){
 	_despatcher->addMouseEvent(packet);
 }
 void Canvas::keyPressEvent(QKeyEvent* keyEvent){
+	qDebug() << "Canvas::keyPressEvent";
 	KeyboardEventPacket* packet = new KeyboardEventPacket(QEvent::KeyPress, keyEvent);
 	_despatcher->addKeyboardEvent(packet);
 }
 
 void Canvas::keyReleaseEvent(QKeyEvent* keyEvent){
+	qDebug() << "Canvas::keyReleaseEvent";
 	KeyboardEventPacket* packet = new KeyboardEventPacket(QEvent::KeyRelease, keyEvent);
 	_despatcher->addKeyboardEvent(packet);
 }

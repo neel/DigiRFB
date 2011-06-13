@@ -6,6 +6,7 @@ using namespace DG;
 #include "messagepacket.h"
 #include "screenpacket.h"
 #include "mouseeventspacket.h"
+#include "keyboardeventpacket.h"
 
 CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 	headerSize = sizeof(DG::Packet::CommonHeader);
@@ -96,6 +97,8 @@ void CommonSocket::readAvailableSlot(){
 				packet = new ScreenPacket;
 			}else if(lastHeader->packetType == Packet::MouseEventPacket){
 				packet = new MouseEventsPacket;
+			}else if(lastHeader->packetType == Packet::KeyboardEventPacket){
+				packet = new KeyboardEventPacket;
 			}
 			sockStream >> *packet;
 			payloadSize = 0;
