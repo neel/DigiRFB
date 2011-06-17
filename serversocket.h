@@ -32,7 +32,7 @@ class ServerSocket : public CommonSocket{
 	private slots:
 		void confirmed(const QString& pass);
 	public slots:
-		void mouseEventPacketsWaiting(const DG::MouseEventsPacket* packet);
+		void mouseEventPacketsWaiting(DG::MouseEventsPacket* packet);
 };
 }
 #endif // SERVERSOCKET_H

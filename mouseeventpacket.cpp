@@ -30,7 +30,7 @@ void MouseEventPacket::reflect() const{
 }
 
 quint64 MouseEventPacket::size(){
-	return sizeof(int)*4+sizeof(qint32)*2;
+	return (sizeof(int)*4)+(sizeof(qint32)*2);
 }
 
 QDataStream& DG::operator<<(QDataStream& stream, const MouseEventPacket& packet){

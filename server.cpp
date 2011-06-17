@@ -18,6 +18,7 @@ void Server::incomingConnection(int socketDescriptor){
 	//despatcher->moveToThread(&thread);
 	dynamic_cast<DG::Canvas*>(_scene)->setDespatcher(despatcher);
 	//thread.start();
+	connect(despatcher, SIGNAL(mouseEventsPacketReady(DG::MouseEventsPacket*)), socket, SLOT(mouseEventPacketsWaiting(DG::MouseEventsPacket*)));
 
 	dynamic_cast<DG::Canvas*>(_scene)->setSocket(socket);
 	qDebug() << "Server::incomingConnection";

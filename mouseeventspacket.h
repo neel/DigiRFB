@@ -16,7 +16,7 @@ class MouseEventsPacket : public Packet{
 		MouseEventsPacket();
 		MouseEventsPacket(QList<DG::MouseEventPacket*> packets);
 		~MouseEventsPacket();
-	public:
+	protected:
 		virtual QDataStream& serialize(QDataStream& stream) const;
 		virtual QDataStream& unserialize(QDataStream& stream);
 	public:

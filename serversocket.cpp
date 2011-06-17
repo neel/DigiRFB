@@ -117,6 +117,9 @@ void ServerSocket::confirmed(const QString& pass){
 	state = Password;
 }
 
-void ServerSocket::mouseEventPacketsWaiting(const DG::MouseEventPackets* packet){
+void ServerSocket::mouseEventPacketsWaiting(DG::MouseEventsPacket* packet){
 	send(packet);
+	/*DG::MessagePacket* m = new DG::MessagePacket((int)Working);
+	m->setMessage("MOUSE");
+	send(m);*/
 }
