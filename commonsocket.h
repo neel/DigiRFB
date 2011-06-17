@@ -38,6 +38,8 @@ class CommonSocket : public QTcpSocket{
 	private:
 		DG::Packet::CommonHeader* lastHeader;
 		QQueue<DG::Packet*> packetQueue;
+	protected:
+		DG::Packet::PacketType lastHeaderType() const;
 	private slots:
 		void stateChangedSlot(QAbstractSocket::SocketState socketState);
 		void readAvailableSlot();

@@ -11,6 +11,7 @@
 #include "scenematrix.h"
 #include "confirmpassworddialog.h"
 #include <QCryptographicHash>
+#include "mouseeventspacket.h"
 
 using namespace DG;
 
@@ -87,13 +88,17 @@ void ServerSocket::msgReceived(){
 				state = Working;
 			}
 		case Working:{
-				DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
-				QGraphicsPixmapItem* item = s->graphicsPixmapItem();
-				//_scene->addItem(item);
-				_matrix->addItem(s->row(), s->col(), item);
-				DG::MessagePacket* m = new DG::MessagePacket((int)Working);
-				m->setMessage("ACK");
-				send(m);
+				if(lastHeaderType() == DG::Packet::ScreenPacket){
+					DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
+					QGraphicsPixmapItem* item = s->graphicsPixmapItem();
+					//_scene->addItem(item);
+					_matrix->addItem(s->row(), s->col(), item);
+					DG::MessagePacket* m = new DG::MessagePacket((int)Working);
+					m->setMessage("ACK");
+					send(m);
+				}else if(lastHeaderType() == DG::Packet::MessagePacket){
+
+				}
 			}break;
 	}
 	delete p;
@@ -110,4 +115,8 @@ void ServerSocket::confirmed(const QString& pass){
 	res->setMessage(passStr.toAscii());
 	send(res);
 	state = Password;
+}
+
+void ServerSocket::mouseEventPacketsWaiting(const DG::MouseEventPackets* packet){
+	send(packet);
 }

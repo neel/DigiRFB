@@ -9,7 +9,7 @@ using namespace DG;
 EventDespatcher::EventDespatcher(DG::ServerSocket* socket, QObject *parent):QObject(parent), _socket(socket){
 	packets.clear();
 	timer.setInterval(1000);
-	//connect(&timer, SIGNAL(timeout()), this, SLOT(despatch()));
+	connect(&timer, SIGNAL(timeout()), this, SLOT(despatch()));
 	timer.start();
 }
 

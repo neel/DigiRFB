@@ -9,6 +9,7 @@ namespace DG{
 	class Resolution;
 	class SceneMatrix;
 	class ConfirmPasswordDialog;
+	class MouseEventsPacket;
 }
 
 namespace DG{
@@ -30,6 +31,8 @@ class ServerSocket : public CommonSocket{
 		void prepare(const DG::Resolution* resolution);
 	private slots:
 		void confirmed(const QString& pass);
+	public slots:
+		void mouseEventPacketsWaiting(const DG::MouseEventsPacket* packet);
 };
 }
 #endif // SERVERSOCKET_H

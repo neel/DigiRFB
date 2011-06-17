@@ -109,3 +109,7 @@ void CommonSocket::readAvailableSlot(){
 		}
 	}
 }
+
+DG::Packet::PacketType CommonSocket::lastHeaderType() const{
+	return lastHeader->packetType;
+}
