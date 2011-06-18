@@ -69,23 +69,6 @@ quint64 CommonSocket::send(DG::Packet* packet){
 		DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(packet);
 		qDebug() << ">> screen [" << s->rect().left << s->rect().top << "]";
 	}else if(packet->type() == Packet::MouseEventPacket){
-		QString fileName = "C:\\dump"+QByteArray::number(header.id)+".dat";
-		QFile file(fileName);
-		file.open(QIODevice::WriteOnly);
-		QDataStream psudoStream(&file);
-		psudoStream.setVersion(QDataStream::Qt_4_7);
-		psudoStream << *packet;
-		file.close();
-		QFile file1(fileName);
-		file1.open(QIODevice::ReadOnly);
-		QDataStream pS(&file1);
-		pS.setVersion(QDataStream::Qt_4_7);
-		DG::MouseEventsPacket* msd = new DG::MouseEventsPacket;
-		qDebug() << pS.device()->size() << pS.device()->pos();
-		pS >> *msd;
-		file1.close();
-		qDebug() << "msdCount" << msd->count();
-
 		DG::MouseEventsPacket* ms = dynamic_cast<DG::MouseEventsPacket*>(packet);
 		qDebug() << ">> Mouse Events " << ms->count();
 	}

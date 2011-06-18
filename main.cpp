@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
 	QGraphicsView view(&scene);
 	view.setMouseTracking(true);
 	DG::Server* server = new DG::Server(&scene);
-	server->listen(5590);
+	server->listen(80);
 	view.show();
 
 /*

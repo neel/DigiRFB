@@ -17,8 +17,8 @@ void EventDespatcher::despatch(){
 	QMutexLocker locker(&mutex);
 	if(packets.size() > 0){
 		DG::MouseEventsPacket* packet = new DG::MouseEventsPacket(packets);
-		//_socket->send(packet);
-		emit mouseEventsPacketReady(packet);
+		_socket->send(packet);
+		//emit mouseEventsPacketReady(packet);
 		packets.clear();
 	}
 }
@@ -30,5 +30,5 @@ void EventDespatcher::addMouseEvent(MouseEventPacket* packet){
 
 void EventDespatcher::addKeyboardEvent(KeyboardEventPacket* packet){
 	QMutexLocker locker(&mutex);
-	//_socket->send(packet);
+	_socket->send(packet);
 }

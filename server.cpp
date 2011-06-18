@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include "canvas.h"
 #include "eventdespatcer.h"
+#include <QNetworkInterface>
 
 using namespace DG;
 
@@ -37,5 +38,6 @@ void Server::addClient(){
 }
 
 void Server::listen(qint64 port){
+	qDebug() << QNetworkInterface::allAddresses();
 	QTcpServer::listen(QHostAddress::Any, port);
 }
