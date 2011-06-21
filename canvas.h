@@ -8,6 +8,7 @@ namespace DG{
 	class EventDespatcher;
 }
 class QGraphicsSceneMouseEvent;
+class QGraphicsSceneWheelEvent;
 
 namespace DG{
 class Canvas : public QGraphicsScene{
@@ -23,6 +24,7 @@ class Canvas : public QGraphicsScene{
 		virtual void	mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 		virtual void	mousePressEvent(QGraphicsSceneMouseEvent* event);
 		virtual void	mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+		virtual void	wheelEvent(QGraphicsSceneWheelEvent* event);
 		virtual void 	keyPressEvent(QKeyEvent * keyEvent);
 		virtual void 	keyReleaseEvent(QKeyEvent * keyEvent);
 	public:

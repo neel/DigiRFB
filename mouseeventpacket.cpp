@@ -16,6 +16,15 @@ MouseEventPacket::MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseE
 	_modifires = ev->modifiers();
 }
 
+MouseEventPacket::MouseEventPacket(QEvent::Type type, const QGraphicsSceneWheelEvent* ev):EventPacket(){
+	_type = type;
+	_point = ev->scenePos().toPoint();
+	_buttons = ev->buttons();
+	_modifires = ev->modifiers();
+	_delta = ev->delta();
+	_orient = ev->orientation();
+}
+
 QEvent::Type MouseEventPacket::mouseEventType() const{
 	return _type;
 }
@@ -25,8 +34,13 @@ const QPoint& MouseEventPacket::point() const{
 }
 
 void MouseEventPacket::reflect() const{
-	QMouseEvent* event = new QMouseEvent(_type, _point, _point, _button, _buttons, _modifires);
-	DG::Util::fireEvent(event);
+	if(_type == QEvent::Wheel){
+		QWheelEvent* event = new QWheelEvent(_point, _delta, _buttons, _modifires, _orient);
+		DG::Util::fireEvent(event);
+	}else{
+		QMouseEvent* event = new QMouseEvent(_type, _point, _point, _button, _buttons, _modifires);
+		DG::Util::fireEvent(event);
+	}
 }
 
 quint64 MouseEventPacket::size(){
@@ -34,7 +48,7 @@ quint64 MouseEventPacket::size(){
 }
 
 QDataStream& DG::operator<<(QDataStream& stream, const MouseEventPacket& packet){
-	stream << packet._type << packet._point << packet._button << packet._buttons << packet._modifires;
+	stream << packet._type << packet._point << packet._button << packet._buttons << packet._modifires << packet._orient;
 	return stream;
 }
 
@@ -43,10 +57,12 @@ QDataStream& DG::operator>>(QDataStream& stream, MouseEventPacket& packet){
 	int button;
 	int buttons;
 	int modifires;
-	stream >> type >> packet._point >> button >> buttons >> modifires;
+	int orient;
+	stream >> type >> packet._point >> button >> buttons >> modifires >> orient;
 	packet._type = (QEvent::Type)type;
 	packet._button = (Qt::MouseButton)button;
 	packet._buttons = (Qt::MouseButtons)buttons;
 	packet._modifires = (Qt::KeyboardModifiers)modifires;
+	packet._orient = (Qt::Orientation)orient;
 	return stream;
 }

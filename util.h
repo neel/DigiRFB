@@ -11,6 +11,7 @@
 #include <QImage>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QWheelEvent>
 
 class QWidget;
 
@@ -40,6 +41,7 @@ class Util{
 		static bool compare(const QImage& l, const QImage& r);
 	public:
 		static void fireEvent(QMouseEvent* ev);
+		static void fireEvent(QWheelEvent* ev);
 		static void fireEvent(QKeyEvent* ev);
 };
 }

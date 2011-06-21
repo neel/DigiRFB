@@ -4,6 +4,7 @@
 #include "eventpacket.h"
 #include <QDataStream>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneWheelEvent>
 #include <QPoint>
 
 namespace DG{
@@ -14,9 +15,12 @@ class MouseEventPacket : public DG::EventPacket{
 		Qt::MouseButton _button;
 		Qt::MouseButtons _buttons;
 		Qt::KeyboardModifiers _modifires;
+		Qt::Orientation _orient;//WheelEvent
+		int _delta;//WheelEvent
 	public:
 		MouseEventPacket();
 		MouseEventPacket(QEvent::Type type, const QGraphicsSceneMouseEvent* ev);
+		MouseEventPacket(QEvent::Type type, const QGraphicsSceneWheelEvent* ev);
 		QEvent::Type mouseEventType() const;
 	public:
 		const QPoint& point() const;

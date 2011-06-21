@@ -6,6 +6,7 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <winuser.h>
+#include <QThread>
 
 using namespace DG;
 
@@ -87,34 +88,6 @@ bool Util::compare(const QImage& l, const QImage& r){
 }
 
 void Util::fireEvent(QMouseEvent* ev){
-/*
-	DWORD dwFlags;
-	DWORD dx;
-	DWORD dy;
-	DWORD dwData;
-	ULONG_PTR dwExtraInfo;
-	qDebug() << "Util::fireEvent (" << ev->x() << ev->y() << ") " << dx << dy;
-
-	if(ev->type() == QEvent::MouseButtonPress){
-		if(ev->button() == Qt::LeftButton){
-			dwFlags  = MOUSEEVENTF_LEFTDOWN|MOUSEEVENTF_ABSOLUTE;
-		}else if(ev->button() == Qt::RightButton){
-			dwFlags  = MOUSEEVENTF_RIGHTDOWN|MOUSEEVENTF_ABSOLUTE;
-		}
-	}else if(ev->type() == QEvent::MouseButtonRelease){
-		if(ev->button() == Qt::LeftButton){
-			dwFlags  = MOUSEEVENTF_LEFTUP|MOUSEEVENTF_ABSOLUTE;
-		}else if(ev->button() == Qt::RightButton){
-			dwFlags  = MOUSEEVENTF_RIGHTUP|MOUSEEVENTF_ABSOLUTE;
-		}
-	}else if(ev->type() == QEvent::MouseMove){
-		dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
-		dx = ev->x();
-		dy = ev->y();
-	}
-	mouse_event(dwFlags, dx, dy, dwData, dwExtraInfo);
-*/
-
 	INPUT input = {0};
 	input.type = INPUT_MOUSE;
 	if(ev->type() == QEvent::MouseButtonPress){
@@ -138,6 +111,11 @@ void Util::fireEvent(QMouseEvent* ev){
 		double fy		         = ev->globalY() * (65535.0f/fScreenHeight);
 		input.mi.dx = fx;
 		input.mi.dy = fy;
+	}else if(ev->type() == QEvent::MouseButtonDblClick){
+		input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
+		::SendInput(1,&input,sizeof(INPUT));
+		//Should I Sleep Here ?
+		input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
 	}
 	::SendInput(1,&input,sizeof(INPUT));
 
@@ -146,8 +124,22 @@ void Util::fireEvent(QMouseEvent* ev){
 */
 }
 
-void Util::fireEvent(QKeyEvent* ev){
+void Util::fireEvent(QWheelEvent* ev){
+	INPUT input = {0};
+	input.type = INPUT_MOUSE;
+	if(ev->orientation() == Qt::Horizontal){
+		input.mi.dwFlags = MOUSEEVENTF_WHEEL;
+	}else if(ev->orientation() == Qt::Vertical){
+		//Not Handled
+		//input.mi.dwFlags = MOUSEEVENTF_WHEEL
+		//The above Commented Code will work on Vista and above
+	}
+	input.mi.mouseData = ev->delta();
+	::SendInput(1,&input,sizeof(INPUT));
+}
 
+void Util::fireEvent(QKeyEvent* ev){
+	QApplication::postEvent(DG::Util::_desktopWidget, ev);
 }
 
 WId DG::Util::winId;
