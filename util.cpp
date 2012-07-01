@@ -6,7 +6,13 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <winuser.h>
+#include <windows.h>
 #include <QThread>
+
+#define KEYEVENTF_EXTENDEDKEY 0x0001
+#define KEYEVENTF_KEYUP 0x0002
+#define KEYEVENTF_UNICODE 0x0004
+#define KEYEVENTF_SCANCODE 0x0008
 
 using namespace DG;
 
@@ -89,20 +95,20 @@ bool Util::compare(const QImage& l, const QImage& r){
 
 void Util::fireEvent(QMouseEvent* ev){
 	INPUT input = {0};
-	input.type = INPUT_MOUSE;
-	if(ev->type() == QEvent::MouseButtonPress){
+    input.type = INPUT_MOUSE;
+    if(ev->type() == QEvent::MouseButtonPress){
 		if(ev->button() == Qt::LeftButton){
 			input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
 		}else if(ev->button() == Qt::RightButton){
 			input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
 		}
-	}else if(ev->type() == QEvent::MouseButtonRelease){
+    }else if(ev->type() == QEvent::MouseButtonRelease){
 		if(ev->button() == Qt::LeftButton){
 			input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
 		}else if(ev->button() == Qt::RightButton){
 			input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
 		}
-	}else if(ev->type() == QEvent::MouseMove){
+    }else if(ev->type() == QEvent::MouseMove){
 		input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
 		input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
 		double fScreenWidth	= GetSystemMetrics( SM_CXSCREEN )-1;
@@ -111,12 +117,12 @@ void Util::fireEvent(QMouseEvent* ev){
 		double fy		         = ev->globalY() * (65535.0f/fScreenHeight);
 		input.mi.dx = fx;
 		input.mi.dy = fy;
-	}else if(ev->type() == QEvent::MouseButtonDblClick){
+    }else if(ev->type() == QEvent::MouseButtonDblClick){
 		input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
 		::SendInput(1,&input,sizeof(INPUT));
 		//Should I Sleep Here ?
 		input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
-	}
+    }
 	::SendInput(1,&input,sizeof(INPUT));
 
 /*
@@ -131,7 +137,7 @@ void Util::fireEvent(QWheelEvent* ev){
 		input.mi.dwFlags = MOUSEEVENTF_WHEEL;
 	}else if(ev->orientation() == Qt::Vertical){
 		//Not Handled
-		//input.mi.dwFlags = MOUSEEVENTF_WHEEL
+        input.mi.dwFlags = MOUSEEVENTF_WHEEL;
 		//The above Commented Code will work on Vista and above
 	}
 	input.mi.mouseData = ev->delta();
@@ -139,7 +145,82 @@ void Util::fireEvent(QWheelEvent* ev){
 }
 
 void Util::fireEvent(QKeyEvent* ev){
-	QApplication::postEvent(DG::Util::_desktopWidget, ev);
+    //QApplication::postEvent(DG::Util::_desktopWidget, ev);
+    INPUT input = {0};
+    input.type = INPUT_KEYBOARD;
+    input.ki.time = 0;
+    input.ki.dwExtraInfo = 0;
+    if(ev->type() == QEvent::KeyPress){
+        input.ki.dwFlags = 0;
+    }else if(ev->type() == QEvent::KeyRelease){
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
+    }
+    input.ki.wVk = 0;
+    int key = ev->key();
+    switch (key) {
+        case Qt::Key_Alt:
+            input.ki.wVk = (ev->nativeScanCode() == VK_LMENU) ? VK_LMENU : VK_RMENU;
+            break;
+        case Qt::Key_Control:
+            input.ki.wVk = (ev->nativeScanCode() == VK_LCONTROL) ? VK_LCONTROL : VK_RCONTROL;
+            break;
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            input.ki.wVk = VK_RETURN;
+            break;
+        case Qt::Key_Backspace:
+            input.ki.wVk = VK_BACK;
+            break;
+        case Qt::Key_Up:
+            input.ki.wVk = VK_UP;
+            break;
+         case Qt::Key_Down:
+            input.ki.wVk = VK_DOWN;
+            break;
+        case Qt::Key_Left:
+            input.ki.wVk = VK_LEFT;
+            break;
+         case Qt::Key_Right:
+            input.ki.wVk = VK_RIGHT;
+            break;
+        case Qt::Key_Home:
+            input.ki.wVk = VK_HOME;
+            break;
+        case Qt::Key_End:
+            input.ki.wVk = VK_END;
+            break;
+        case Qt::Key_Insert:
+            input.ki.wVk = VK_INSERT;
+            break;
+        case Qt::Key_PageUp:
+            input.ki.wVk = VK_PRIOR;
+            break;
+        case Qt::Key_PageDown:
+            input.ki.wVk = VK_NEXT;
+            break;
+        case Qt::Key_Delete:
+            input.ki.wVk = VK_DELETE;
+            break;
+        case Qt::Key_CapsLock:
+            input.ki.wVk = VK_CAPITAL;
+            break;
+        case Qt::Key_NumLock:
+            input.ki.wVk = VK_NUMLOCK;
+            break;
+        case Qt::Key_Escape:
+            input.ki.wVk = VK_ESCAPE;
+            break;
+        case Qt::Key_Shift:
+            input.ki.wVk = VK_SHIFT;
+            break;
+        default:
+            QChar c(ev->text()[0]);
+            input.ki.wScan = c.unicode();
+            input.ki.dwFlags |= KEYEVENTF_UNICODE;
+            break;
+    }
+
+    ::SendInput(1,&input,sizeof(INPUT));
 }
 
 WId DG::Util::winId;

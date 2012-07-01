@@ -1,4 +1,5 @@
 #include "keyboardeventpacket.h"
+#include "util.h"
 
 using namespace DG;
 KeyboardEventPacket::KeyboardEventPacket():DG::EventPacket(), DG::Packet(){
@@ -33,7 +34,8 @@ QDataStream& KeyboardEventPacket::unserialize(QDataStream& stream){
 }
 
 void KeyboardEventPacket::reflect() const{
-
+    QKeyEvent* event = new QKeyEvent(_type, _key, _modifiers, _text, _autorep, _count);
+    DG::Util::fireEvent(event);
 }
 
 quint64 KeyboardEventPacket::size() const{

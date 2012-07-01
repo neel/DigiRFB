@@ -44,9 +44,9 @@ void RequestController::_send(){
 		requestCount = 0;
 	}
 
-	if(requestCount >= 0){
+    //if(requestCount >= 0){
 		qDebug() << "packetCount(): " << packetCount();
-		if(packetCount() >= RequestController::maxQueueSize){
+        //if(packetCount() >= RequestController::maxQueueSize){
 			while(packetCount() >= RequestController::minQueueSize){
 				DG::ScreenPacket* packet = _storage->next(10);
 				//packet->pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(packet->rect().left).arg(packet->rect().top), "JPEG");
@@ -56,8 +56,8 @@ void RequestController::_send(){
 				--requestCount;
 				qDebug() << "Forcing " << requestCount;
 			}
-		}
-	}
+        //}
+    //}
 
 }
 
@@ -81,5 +81,5 @@ void RequestController::acknowledged(){
 	++ackC;
 }
 
-const quint8 RequestController::minQueueSize = 4;
-const quint8 RequestController::maxQueueSize = 8;
+const quint8 RequestController::minQueueSize = 1;
+const quint8 RequestController::maxQueueSize = 4;
