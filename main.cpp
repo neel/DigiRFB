@@ -21,6 +21,9 @@
 #include <QLabel>
 #include <QLayout>
 
+#include "clientconector.h"
+#include "serverinterface.h"
+
 
 int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
@@ -37,11 +40,14 @@ int main(int argc, char *argv[]){
 	widget->show();
 */
 
-
+/*
 	DG::ClientSocket* socket = new DG::ClientSocket;
-    socket->connectToHost("27.97.174.149", 5590);
-
-
+    socket->connectToHost("192.168.0.4", 5590);
+*/
+/*
+    ClientConector c;
+    c.initiate();
+*/
 /*
 	QByteArray currentResdolution = DG::Util::currentResolution()->pack();
 	QByteArray supportedResolutions = DG::Resolution::joinSupportedResolutions(DG::Util::SupportedResolutions(), ',');
@@ -66,6 +72,8 @@ int main(int argc, char *argv[]){
     server->listen(5590);
     view.show();
 */
+    ServerInterface s;
+
 /*
 	DG::ScreenViewerWidget* widget = new DG::ScreenViewerWidget;
 	QScrollArea* scroller = new QScrollArea;

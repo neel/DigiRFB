@@ -16,10 +16,10 @@ UpdateThread::UpdateThread(DG::RectArea* area): _area(area){
 void UpdateThread::run(){
 	QMutexLocker locker(&mutex);
 	//qDebug() << this << "UpdateThread::run()";
-	if(_area->storage()->queueSize() < RequestController::maxQueueSize)
+    if(_area->storage()->queueSize() < RequestController::maxQueueSize)
 		_area->update();
-	else
-		qDebug() << "_area->storage()->queueSize() Overflow Production Paused" << _area->storage()->queueSize() << RequestController::maxQueueSize;
+    else
+        qDebug() << "_area->storage()->queueSize() Overflow Production Paused" << _area->storage()->queueSize() << RequestController::maxQueueSize;
 	qDebug() << "Starting " << _next;
 	QThreadPool::globalInstance()->start(this);
 }

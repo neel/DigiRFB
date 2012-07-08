@@ -30,7 +30,11 @@ HEADERS += \
 		mouseeventspacket.h \
     keyboardeventpacket.h \
     challangedialog.h \
-    confirmpassworddialog.h
+    confirmpassworddialog.h \
+    clientconnectiondialog.h \
+    clientconector.h \
+    serverconnectiondialog.h \
+    serverinterface.h
 
 SOURCES += \
 		resolution.cpp \
@@ -58,13 +62,19 @@ SOURCES += \
 		mouseeventspacket.cpp \
     keyboardeventpacket.cpp \
     challangedialog.cpp \
-    confirmpassworddialog.cpp
+    confirmpassworddialog.cpp \
+    clientconnectiondialog.cpp \
+    clientconector.cpp \
+    serverconnectiondialog.cpp \
+    serverinterface.cpp
 
 LIBS += -lgdi32
 
 FORMS += \
     challangedialog.ui \
-    confirmpassworddialog.ui
+    confirmpassworddialog.ui \
+    clientconnectiondialog.ui \
+    serverconnectiondialog.ui
 
 RESOURCES += \
     res.qrc

@@ -81,5 +81,5 @@ void RequestController::acknowledged(){
 	++ackC;
 }
 
-const quint8 RequestController::minQueueSize = 1;
-const quint8 RequestController::maxQueueSize = 4;
+const quint8 RequestController::minQueueSize = 4;
+const quint8 RequestController::maxQueueSize = 1;
