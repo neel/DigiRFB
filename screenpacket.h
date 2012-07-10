@@ -37,6 +37,8 @@ class ScreenPacket : public Packet{
 		virtual quint64 size() const;
 	public:
 		QGraphicsPixmapItem* graphicsPixmapItem() const;
+    public:
+        void dumpPixmap() const;
 };
 }
 #endif // SCREENPACKET_H

@@ -77,7 +77,37 @@ bool Util::setResolution(Resolution* res){
 
 QPixmap Util::grabScreen(const DG::Rect* rect){
 	mutex.lock();
-	QPixmap pixmap = QPixmap::grabWindow(Util::winId,rect->left, rect->top, rect->width, rect->height);
+    /*
+    HDC hdc=GetWindowDC(NULL);
+    HWND win=WindowFromDC(hdc);
+
+    HDC cdc=CreateCompatibleDC(hdc);
+    HBITMAP temp=CreateCompatibleBitmap(hdc,rect->width,rect->height);
+    PAINTSTRUCT ps;
+
+    hdc=BeginPaint(win,&ps);
+    HBITMAP oldb=(HBITMAP)SelectObject(cdc,temp);
+    BitBlt(cdc,0,0,rect->width,rect->height,hdc,rect->left,rect->top,SRCCOPY);
+    SelectObject(cdc,oldb);
+    EndPaint(win,&ps);
+
+    qDebug() << "Capturing : " << rect->left << rect->top;
+
+    char* buff;
+    buff = new char[rect->size()];
+    GetBitmapBits(temp,rect->size(),buff);
+
+    qDebug() << "temp" << temp;
+    if(temp == 0x0){
+        qDebug() << "hdc" << hdc;
+    }
+
+    //DeleteDC(cdc);
+    ReleaseDC(NULL, hdc);
+    DeleteDC(hdc);
+    QPixmap pixmap = QPixmap::fromWinHBITMAP(temp);
+    */
+    QPixmap pixmap = QPixmap::grabWindow(Util::winId,rect->left, rect->top, rect->width, rect->height);
 	mutex.unlock();
 	return pixmap;
 

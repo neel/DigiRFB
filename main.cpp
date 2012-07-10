@@ -21,6 +21,9 @@
 #include <QLabel>
 #include <QLayout>
 
+#include <iostream>
+#include <fstream>
+
 #include "clientconector.h"
 #include "serverinterface.h"
 
@@ -29,6 +32,8 @@ int main(int argc, char *argv[]){
 	QApplication a(argc, argv);
 	a.setQuitOnLastWindowClosed(false);
 	DG::Util::_init();
+    //std::cout.rdbuf(std::cerr.rdbuf());
+    //std::cerr.rdbuf(std::cout.rdbuf());
 /*
 	QWidget* widget = new QWidget;
 	QLabel* packetsSent = new QLabel;
@@ -72,6 +77,7 @@ int main(int argc, char *argv[]){
     server->listen(5590);
     view.show();
 */
+
     ServerInterface s;
 
 /*

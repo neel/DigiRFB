@@ -20,7 +20,7 @@ bool MatrixStorageItem::update(){
 	QImage currentScreen = Util::grabScreen(rect).toImage();
 	//qDebug() << "MatrixStorageItem::update() Rect # " << rect->left << rect->top << rect->height << rect->width;
 	if(!DG::Util::compare(currentScreen, _cache)){
-		//currentPixmap.toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(rect->left).arg(rect->top), "JPEG");
+        currentScreen.save("C:\\scan\\"+QString("%1x%2.jpg").arg(rect->left).arg(rect->top), "JPEG");
 		_cache = currentScreen;
 		qDebug() << "MatrixStorageItem::update() Unmatched" << rect->left << rect->top << "updated: " << updated << "queueSize: " << _storage->queueSize();
 		//if(!updated){

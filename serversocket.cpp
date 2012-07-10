@@ -91,6 +91,7 @@ void ServerSocket::msgReceived(){
 				if(lastHeaderType() == DG::Packet::ScreenPacket){
 					DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
 					QGraphicsPixmapItem* item = s->graphicsPixmapItem();
+                    s->dumpPixmap();
 					//_scene->addItem(item);
 					_matrix->addItem(s->row(), s->col(), item);
 					DG::MessagePacket* m = new DG::MessagePacket((int)Working);
