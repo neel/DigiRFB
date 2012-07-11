@@ -38,7 +38,7 @@ class ScreenPacket : public Packet{
 	public:
 		QGraphicsPixmapItem* graphicsPixmapItem() const;
     public:
-        void dumpPixmap() const;
+        bool dumpPixmap() const;
 };
 }
 #endif // SCREENPACKET_H

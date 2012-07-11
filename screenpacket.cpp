@@ -103,6 +103,6 @@ QGraphicsPixmapItem* ScreenPacket::graphicsPixmapItem() const{
 	return item;
 }
 
-void ScreenPacket::dumpPixmap() const{
-    pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(_rect.left).arg(_rect.top), "JPEG");
+bool ScreenPacket::dumpPixmap() const{
+    return pixmap().toImage().save("C:\\scan\\"+QString("%1x%2.jpg").arg(_rect.left).arg(_rect.top), "JPEG");
 }

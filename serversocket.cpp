@@ -12,6 +12,8 @@
 #include "confirmpassworddialog.h"
 #include <QCryptographicHash>
 #include "mouseeventspacket.h"
+#include <iostream>
+#include <QApplication>
 
 using namespace DG;
 
@@ -88,10 +90,12 @@ void ServerSocket::msgReceived(){
 				state = Working;
 			}
 		case Working:{
-				if(lastHeaderType() == DG::Packet::ScreenPacket){
+                if(lastHeaderType() == DG::Packet::ScreenPacket){
 					DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
 					QGraphicsPixmapItem* item = s->graphicsPixmapItem();
-                    s->dumpPixmap();
+                    if(!s->dumpPixmap()){
+                        QApplication::beep();
+                    }
 					//_scene->addItem(item);
 					_matrix->addItem(s->row(), s->col(), item);
 					DG::MessagePacket* m = new DG::MessagePacket((int)Working);
