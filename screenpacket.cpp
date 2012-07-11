@@ -47,7 +47,7 @@ void ScreenPacket::setImage(const QImage& image){
 	buffer.setBuffer(&_buffer);
 	buffer.open(QBuffer::WriteOnly);
 	buffer.seek(0);
-	QImageWriter writer(&buffer, "jpeg");
+    QImageWriter writer(&buffer, "jpeg");
 	writer.setQuality(32);
 	writer.setCompression(1);
 	_pixmapGenerated = writer.write(image);
@@ -75,7 +75,7 @@ QPixmap ScreenPacket::pixmap() const{
 	const_cast<QByteArray&>(_buffer) = qUncompress(_buffer);
 	buffer.setBuffer(const_cast<QByteArray*>(&_buffer));
 	buffer.open(QBuffer::ReadOnly);
-	QImageReader reader(&buffer, "jpeg");
+    QImageReader reader(&buffer, "jpeg");
 	_pixmap = QPixmap::fromImage(reader.read());
 	_pixmapGenerated = true;
 	return _pixmap;

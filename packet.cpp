@@ -15,7 +15,8 @@ Packet::PacketType Packet::type() const{
 }
 
 Packet::CommonHeader::CommonHeader(){
-
+    time = QTime::currentTime();
+    size = 0;
 }
 
 Packet::CommonHeader::CommonHeader(quint32 sz, PacketType type){
