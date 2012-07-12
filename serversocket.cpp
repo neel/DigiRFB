@@ -94,7 +94,7 @@ void ServerSocket::msgReceived(){
 					DG::ScreenPacket* s = dynamic_cast<DG::ScreenPacket*>(p);
 					QGraphicsPixmapItem* item = s->graphicsPixmapItem();
                     if(!s->dumpPixmap()){
-                        QApplication::beep();
+                        //QApplication::beep();
                     }
 					//_scene->addItem(item);
 					_matrix->addItem(s->row(), s->col(), item);

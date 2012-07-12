@@ -22,10 +22,10 @@ class CommonSocket : public QTcpSocket{
 		};
 		ReadState readerState;
 		quint8 headerSize;
-		quint16 payloadSize;
+        quint32 payloadSize;
 		QDataStream sockStream;
 	private:
-		inline quint16 currentReadSize() const{return readerState == Header ? headerSize : payloadSize;}
+        quint32 currentReadSize() const;
 	protected:
 		qint64 sentBytes;
 		qint64 rcvdBytes;

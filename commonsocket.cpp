@@ -20,6 +20,10 @@ CommonSocket::CommonSocket(QObject* parent): QTcpSocket(parent){
 	connect(this, SIGNAL(readyRead()), this, SLOT(readAvailableSlot()));
 }
 
+quint32 CommonSocket::currentReadSize() const{
+    return readerState == Header ? headerSize : payloadSize;
+}
+
 void CommonSocket::stateChangedSlot(QAbstractSocket::SocketState socketState){
 	if(socketState == QAbstractSocket::ConnectedState){
 		state = Connected;

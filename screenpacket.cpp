@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QFont>
 #include <QDateTime>
+#include <QApplication>
 
 using namespace DG;
 
@@ -47,7 +48,7 @@ void ScreenPacket::setImage(const QImage& image){
 	buffer.setBuffer(&_buffer);
 	buffer.open(QBuffer::WriteOnly);
 	buffer.seek(0);
-    QImageWriter writer(&buffer, "jpeg");
+    QImageWriter writer(&buffer, "JPEG");
 	writer.setQuality(32);
 	writer.setCompression(1);
 	_pixmapGenerated = writer.write(image);
@@ -75,8 +76,11 @@ QPixmap ScreenPacket::pixmap() const{
 	const_cast<QByteArray&>(_buffer) = qUncompress(_buffer);
 	buffer.setBuffer(const_cast<QByteArray*>(&_buffer));
 	buffer.open(QBuffer::ReadOnly);
-    QImageReader reader(&buffer, "jpeg");
+    QImageReader reader(&buffer, "JPEG");
 	_pixmap = QPixmap::fromImage(reader.read());
+    if(_pixmap.isNull()){
+        QApplication::beep();
+    }
 	_pixmapGenerated = true;
 	return _pixmap;
 }
